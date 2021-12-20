@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "2tvkn/YlF5pfMt3DoJa1rNmrJheKvEk+OTuNRyJtz6WUOCAHOVcJ5CARGekblqIy6DZnw9BfDS9deySLjRkbEg==",
+  "success": true,
+  "projectFilePath": "D:\\HR_Management\\HR_Management.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Balebom\\.nuget\\packages\\materialdesigncolors\\2.0.4\\materialdesigncolors.2.0.4.nupkg.sha512",
+    "C:\\Users\\Balebom\\.nuget\\packages\\materialdesignthemes\\4.3.0\\materialdesignthemes.4.3.0.nupkg.sha512",
+    "C:\\Users\\Balebom\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.39\\microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512"
+  ],
+  "logs": []
+}

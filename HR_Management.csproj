@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resource\Image\avt.jpg" />
+    <None Remove="Resource\Image\Card_0.jpg" />
+    <None Remove="Resource\Image\connection.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\Image\avt.jpg" />
+    <Resource Include="Resource\Image\Card_0.jpg" />
+    <Resource Include="Resource\Image\connection.png" />
+  </ItemGroup>
+
+</Project>

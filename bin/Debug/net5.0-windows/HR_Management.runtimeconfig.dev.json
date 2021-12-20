@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\Balebom\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Balebom\\.nuget\\packages"
+    ]
+  }
+}
