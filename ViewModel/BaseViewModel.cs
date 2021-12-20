@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace HR_Management.ViewModel
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -35,6 +35,11 @@ namespace HR_Management.ViewModel
 
             public bool CanExecute(object parameter)
             {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
                 try
                 {
                     return _canExecute == null ? true : _canExecute((T)parameter);
@@ -74,6 +79,11 @@ namespace HR_Management.ViewModel
 
             public bool CanExecute(object parameter)
             {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
                 try
                 {
                     var values = parameter as object[];
@@ -98,7 +108,53 @@ namespace HR_Management.ViewModel
             }
         }
 
-        class AsyncCommand<T> : ICommand
+        public class RelayTripleParamCommand<T, V, U> : ICommand
+        {
+            protected readonly Func<T, V, U, bool> _canExecute;
+            protected readonly Func<T, V, U, bool> _execute;
+
+            public RelayTripleParamCommand(Func<T, V, U, bool> canExecute, Func<T, V, U, bool> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    var values = parameter as object[];
+                    return _canExecute == null ? true : (bool)_canExecute((T)values[0], (V)values[1], (U)values[2]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                var values = parameter as object[];
+                _execute((T)values[0], (V)values[1], (U)values[2]);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+        public class AsyncCommand<T> : ICommand
         {
             private readonly Predicate<T> _canExecute;
             private readonly Action<T> _execute;
@@ -122,6 +178,11 @@ namespace HR_Management.ViewModel
 
             public bool CanExecute(object parameter)
             {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
                 try
                 {
                     return _canExecute == null ? true : _canExecute((T)parameter);

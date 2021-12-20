@@ -10,12 +10,48 @@
     <Compile Update="View\HR_UserControl\Dashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\HR_UserControl\Employee.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HR_UserControl\Offboarding.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HR_UserControl\Onboarding.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HR_UserControl\Recruitment.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HR_UserControl\Request.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HR_UserControl\Unsupported.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Resource\XAML\MainDictionary.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_UserControl\Dashboard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Employee.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Offboarding.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Onboarding.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Recruitment.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Request.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\Unsupported.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_Window\MainWindow.xaml">
