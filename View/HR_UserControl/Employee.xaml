@@ -17,8 +17,138 @@
         
              DataContext="DEmployeeViewModel"
              
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="1000">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                </Style>
+                <Style TargetType="materialDesign:PackIcon">
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="Height" Value="50"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Border Background="#FFA9D4" Margin="10" Padding="10">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Border Background="#FFC8E4">
+                            <materialDesign:PackIcon Kind="License" Foreground="#C54B86"/>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="60" FontSize="15"/>
+                                <Label Content=" vacancies"/>
+                            </StackPanel>
+                            <Label Content="Recommended" FontSize="17"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Border Margin="10" Background="#82DEF2" Padding="10">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Border Background="#AEE7F7">
+                            <materialDesign:PackIcon Kind="Send" Foreground="#4BA1B9"/>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="70" FontSize="15"/>
+                                <Label Content=" vacancies"/>
+                            </StackPanel>
+                            <Label Content="Remote" FontSize="17"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Column="2">
+                <Border Margin="10" Background="#F9A8A7" Padding="10">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Border Background="#FCC7C7">
+                            <materialDesign:PackIcon Kind="Refresh" Foreground="#B3201D"/>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="20" FontSize="15"/>
+                                <Label Content=" vacancies"/>
+                            </StackPanel>
+                            <Label Content="Out Staff" FontSize="17"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Column="3">
+                <Border Margin="10" Background="#D6A9FE" Padding="10">
+                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                        <Border Background="#E5C8FE">
+                            <materialDesign:PackIcon Kind="ContentPaste" Foreground="#945BC5"/>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="120" FontSize="15"/>
+                                <Label Content=" vacancies"/>
+                            </StackPanel>
+                            <Label Content="Out Staff" FontSize="17"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBoxItem>listbox item 1</ListBoxItem>
+                <ListBoxItem>listbox item 2</ListBoxItem>
+                <ListBoxItem>listbox item 3</ListBoxItem>
+                <ListBoxItem>listbox item 4</ListBoxItem>
+                <ListBoxItem>listbox item 5</ListBoxItem>
+            </ListBox>
+        </Grid>
+        
+        <Grid Grid.Row="2">
+            <ListView>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Full name"/>
+                        <GridViewColumn Header="Email" />
+                        <GridViewColumn Header="Tags"/>
+                        <GridViewColumn Header="Socials"/>
+                        <GridViewColumn Header="Status" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </UserControl>

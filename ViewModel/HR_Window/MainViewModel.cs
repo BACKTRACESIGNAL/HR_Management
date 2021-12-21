@@ -85,7 +85,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.EMPLOYEE)
@@ -100,7 +100,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.REQUEST)
@@ -116,7 +116,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.RECRUITMENT)
@@ -132,7 +132,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.ONBOARDING)
@@ -148,7 +148,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.OFFBOARDING)
@@ -164,7 +164,7 @@ namespace HR_Management.ViewModel.HR_Window
             {
                 if (p == null)
                 {
-                    // TODO: Handle if grid view is null
+                    // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.UNSUPPORTED)

@@ -205,7 +205,12 @@
             <Grid Grid.Row="0">
                 <DockPanel>
                     <Grid DockPanel.Dock="Left" Margin="10 0 0 0">
-                        <Label Content="Dashboard" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
+                        <StackPanel Orientation="Horizontal">
+                            <Button ToolTip="Hide" Background="Transparent" BorderThickness="0" Foreground="Black" Padding="0">
+                                <Image Source="../../Resource/Image/eye.png"/>
+                            </Button>
+                            <Label Content="Dashboard" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
+                        </StackPanel>
                     </Grid>
                     <Grid DockPanel.Dock="Right">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">

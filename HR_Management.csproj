@@ -10,10 +10,12 @@
     <None Remove="Resource\Image\avt.jpg" />
     <None Remove="Resource\Image\Card_0.jpg" />
     <None Remove="Resource\Image\connection.png" />
+    <None Remove="Resource\Image\eye.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="Components\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +27,7 @@
     <Resource Include="Resource\Image\avt.jpg" />
     <Resource Include="Resource\Image\Card_0.jpg" />
     <Resource Include="Resource\Image\connection.png" />
+    <Resource Include="Resource\Image\eye.png" />
   </ItemGroup>
 
 </Project>
