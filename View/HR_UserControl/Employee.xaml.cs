@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HR_Management.ViewModel.HR_UserControl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace HR_Management.View.HR_UserControl
     /// </summary>
     public partial class Employee : UserControl
     {
+        public EmployeeViewModel viewModel { get; set; }
         public Employee()
         {
             InitializeComponent();
+            this.DataContext = viewModel = new EmployeeViewModel();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using HR_Management.ViewModel.HR_UserControl;
+﻿using HR_Management.ViewModel.HR_UserControl.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HR_Management.View.HR_UserControl
+namespace HR_Management.View.HR_UserControl.Models
 {
     /// <summary>
-    /// Interaction logic for Dashboard.xaml
+    /// Interaction logic for EmployeeForm.xaml
     /// </summary>
-    public partial class Dashboard : UserControl
+    public partial class EmployeeForm : UserControl
     {
-        public DashboardViewModel dashboard { get; set; }
-        public Dashboard()
+        public EmployeeFormViewModel employeeForm { get; set; }
+        public EmployeeForm()
         {
             InitializeComponent();
-            this.DataContext = dashboard = new DashboardViewModel();
+            this.DataContext = employeeForm = new EmployeeFormViewModel();
         }
     }
 }

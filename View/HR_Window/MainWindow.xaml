@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HR_Management"
         mc:Ignorable="d"
         xmlns:views="clr-namespace:HR_Management.View.HR_UserControl"
-        
+        xmlns:userModelViews="clr-namespace:HR_Management.View.HR_UserControl.Models"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -23,264 +23,273 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         ResizeMode="NoResize">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Background="#111744">
-            <Grid.Resources>
-                <Style TargetType="Label">
-                    <Setter Property="Foreground" Value="White"/>
-                </Style>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <StackPanel Orientation="Horizontal" Margin="15">
-                    <Image Source="../../Resource/Image/connection.png" Width="35" Height="35"/>
-                    <Label Margin="15 0 0 0" Content="HumanDeck" FontSize="20"/>
-                </StackPanel>
+
+    <!-- Model dialog -->
+    <materialDesign:DialogHost BorderBrush="{DynamicResource MaterialDesignDivider}">
+        <materialDesign:DialogHost.DialogContent>
+            <userModelViews:EmployeeForm/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Background="#111744">
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="White"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel Orientation="Horizontal" Margin="15">
+                        <Image Source="../../Resource/Image/connection.png" Width="35" Height="35"/>
+                        <Label Margin="15 0 0 0" Content="HumanDeck" FontSize="20"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter Property="Foreground" Value="LightGray"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="0" Padding="30 5 0 5">
+                                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                    <GradientStop Color="#24216D" Offset="0" />
+                                                    <GradientStop Color="#111744" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Width" Value="30"/>
+                                <Setter Property="Height" Value="30"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                            </Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Margin" Value="20 0 20 0"/>
+                                <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+                                <Setter Property="FontFamily" Value="Tw Cen MT"/>
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+                            </Style>
+                            <Style TargetType="materialDesign:Chip">
+                                <Setter Property="Background" Value="#E24F55"/>
+                                <Setter Property="MinWidth" Value="45"/>
+                                <Setter Property="Margin" Value="0 0 20 0"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="FontFamily" Value="Tw Cen MT"/>
+                                <Setter Property="FontWeight" Value="Black"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Button Command="{Binding LoadDashboardCommand}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
+                                    <Binding ElementName="mainViewName"/>
+                                    <Binding ElementName="mainLabelName"/>
+                                    <Binding ElementName="btnDashboardName"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="MenuOpen"/>
+                                <Label x:Name="btnDashboardName" Content="Dashboard"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding LoadEmployeeCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountMultipleOutline"/>
+                                    <Label Content="Employee"/>
+                                    <materialDesign:Chip Content="12"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadRequestCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FileTree" />
+                                    <Label Content="Request"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadRecruitmentCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountMultiplePlusOutline" />
+                                    <Label Content="Recruitment"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadOnboardingCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountArrowRightOutline" />
+                                    <Label Content="Onboarding"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadOffboardingCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="AccountArrowLeftOutline" />
+                                    <Label Content="Offboarding"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CheckAll" />
+                                    <Label Content="Evaluation"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CalendarMinus" />
+                                    <Label Content="Calendar"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="FolderMultipleOutline" />
+                                    <Label Content="Document"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="ClockTimeFourOutline" />
+                                    <Label Content="Activity"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="CogOutline" />
+                                    <Label Content="Setting"/>
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </Grid>
-            <Grid Grid.Row="1">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Setter Property="Foreground" Value="LightGray"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type Button}">
-                                        <Border Background="{TemplateBinding Background}" BorderThickness="0" Padding="30 5 0 5">
-                                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                                <GradientStop Color="#24216D" Offset="0" />
-                                                <GradientStop Color="#111744" Offset="1" />
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Setter Property="Foreground" Value="White"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="materialDesign:PackIcon">
-                            <Setter Property="Width" Value="30"/>
-                            <Setter Property="Height" Value="30"/>
-                            <Setter Property="VerticalAlignment" Value="Center"/>
-                            <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
-                        </Style>
-                        <Style TargetType="Label">
-                            <Setter Property="Margin" Value="20 0 20 0"/>
-                            <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-                            <Setter Property="FontFamily" Value="Tw Cen MT"/>
-                            <Setter Property="FontSize" Value="18"/>
-                            <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
-                        </Style>
-                        <Style TargetType="materialDesign:Chip">
-                            <Setter Property="Background" Value="#E24F55"/>
-                            <Setter Property="MinWidth" Value="45"/>
-                            <Setter Property="Margin" Value="0 0 20 0"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                            <Setter Property="FontFamily" Value="Tw Cen MT"/>
-                            <Setter Property="FontWeight" Value="Black"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Foreground" Value="White"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button Command="{Binding LoadDashboardCommand}">
-                        <Button.CommandParameter>
-                            <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
-                                <Binding ElementName="mainViewName"/>
-                                <Binding ElementName="mainLabelName"/>
-                                <Binding ElementName="btnDashboardName"/>
-                            </MultiBinding>
-                        </Button.CommandParameter>
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="MenuOpen"/>
-                            <Label x:Name="btnDashboardName" Content="Dashboard"/>
-                        </StackPanel>
-                    </Button>
-                    <Button Command="{Binding LoadEmployeeCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
+
+            <Grid Grid.Column="1" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Left" Margin="10 0 0 0">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountMultipleOutline"/>
-                                <Label Content="Employee"/>
-                                <materialDesign:Chip Content="12"/>
+                                <Button ToolTip="Hide" Background="Transparent" BorderThickness="0" Foreground="Black" Padding="0">
+                                    <Image Source="../../Resource/Image/eye.png"/>
+                                </Button>
+                                <Label Content="Dashboard" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
                             </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadRequestCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FileTree" />
-                                <Label Content="Request"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Right">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Separator">
+                                        <Setter Property="Margin" Value="0 10 0 10"/>
+                                    </Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Margin" Value="2 0 2 0"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Grid>
+                                    <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="MaterialDesignIconForegroundButton" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                                        <materialDesign:PackIcon Kind="ChatOutline" />
+                                    </Button>
+                                </Grid>
+                                <Grid>
+                                    <Separator>
+                                        <Separator.LayoutTransform>
+                                            <RotateTransform Angle="90" />
+                                        </Separator.LayoutTransform>
+                                    </Separator>
+                                </Grid>
+                                <Grid>
+                                    <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="MaterialDesignIconForegroundButton" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
+                                        <materialDesign:PackIcon Kind="BellBadgeOutline"/>
+                                    </Button>
+                                </Grid>
+                                <Grid>
+                                    <Separator>
+                                        <Separator.LayoutTransform>
+                                            <RotateTransform Angle="90" />
+                                        </Separator.LayoutTransform>
+                                    </Separator>
+                                </Grid>
+                                <Grid>
+                                    <Menu>
+                                        <MenuItem>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Ellipse Height="40" Width="40">
+                                                        <Ellipse.Fill>
+                                                            <ImageBrush ImageSource="../../Resource/Image/avt.jpg"/>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                    <Label Content="Johnn Doe" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="20"/>
+                                                    <materialDesign:PackIcon VerticalAlignment="Center" Kind="MenuDown" />
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                        </MenuItem>
+                                    </Menu>
+                                </Grid>
                             </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadRecruitmentCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountMultiplePlusOutline" />
-                                <Label Content="Recruitment"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadOnboardingCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountArrowRightOutline" />
-                                <Label Content="Onboarding"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadOffboardingCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountArrowLeftOutline" />
-                                <Label Content="Offboarding"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="CheckAll" />
-                                <Label Content="Evaluation"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="CalendarMinus" />
-                                <Label Content="Calendar"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="FolderMultipleOutline" />
-                                <Label Content="Document"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ClockTimeFourOutline" />
-                                <Label Content="Activity"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button Command="{Binding LoadUnsupportedCommand}" CommandParameter="{Binding ElementName=mainViewName}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="CogOutline" />
-                                <Label Content="Setting"/>
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <ScrollViewer>
+                        <Grid x:Name="mainViewName">
+                            <views:Dashboard/>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
         </Grid>
 
-        <Grid Grid.Column="1" Margin="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0">
-                <DockPanel>
-                    <Grid DockPanel.Dock="Left" Margin="10 0 0 0">
-                        <StackPanel Orientation="Horizontal">
-                            <Button ToolTip="Hide" Background="Transparent" BorderThickness="0" Foreground="Black" Padding="0">
-                                <Image Source="../../Resource/Image/eye.png"/>
-                            </Button>
-                            <Label Content="Dashboard" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
-                        </StackPanel>
-                    </Grid>
-                    <Grid DockPanel.Dock="Right">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                            <StackPanel.Resources>
-                                <Style TargetType="Separator">
-                                    <Setter Property="Margin" Value="0 10 0 10"/>
-                                </Style>
-                                <Style TargetType="Grid">
-                                    <Setter Property="Margin" Value="2 0 2 0"/>
-                                </Style>
-                            </StackPanel.Resources>
-                            <Grid>
-                                <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="MaterialDesignIconForegroundButton" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
-                                    <materialDesign:PackIcon Kind="ChatOutline" />
-                                </Button>
-                            </Grid>
-                            <Grid>
-                                <Separator>
-                                    <Separator.LayoutTransform>
-                                        <RotateTransform Angle="90" />
-                                    </Separator.LayoutTransform>
-                                </Separator>
-                            </Grid>
-                            <Grid>
-                                <Button Style="{StaticResource MaterialDesignIconForegroundButton}" ToolTip="MaterialDesignIconForegroundButton" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}">
-                                    <materialDesign:PackIcon Kind="BellBadgeOutline"/>
-                                </Button>
-                            </Grid>
-                            <Grid>
-                                <Separator>
-                                    <Separator.LayoutTransform>
-                                        <RotateTransform Angle="90" />
-                                    </Separator.LayoutTransform>
-                                </Separator>
-                            </Grid>
-                            <Grid>
-                                <Menu>
-                                    <MenuItem>
-                                        <MenuItem.Header>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Ellipse Height="40" Width="40">
-                                                    <Ellipse.Fill>
-                                                        <ImageBrush ImageSource="../../Resource/Image/avt.jpg"/>
-                                                    </Ellipse.Fill>
-                                                </Ellipse>
-                                                <Label Content="Johnn Doe" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="20"/>
-                                                <materialDesign:PackIcon VerticalAlignment="Center" Kind="MenuDown" />
-                                            </StackPanel>
-                                        </MenuItem.Header>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                        <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                    </MenuItem>
-                                </Menu>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                </DockPanel>
-            </Grid>
-
-            <Grid Grid.Row="1">
-                <ScrollViewer>
-                    <Grid x:Name="mainViewName">
-                        <views:Dashboard/>
-                    </Grid>
-                </ScrollViewer>
-            </Grid>
-        </Grid>
-    </Grid>
+    </materialDesign:DialogHost>
 </Window>

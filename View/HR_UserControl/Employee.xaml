@@ -14,11 +14,14 @@
              TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
-        
-             DataContext="DEmployeeViewModel"
              
              d:DesignHeight="450" d:DesignWidth="1000">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -123,18 +126,73 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBoxItem>listbox item 1</ListBoxItem>
-                <ListBoxItem>listbox item 2</ListBoxItem>
-                <ListBoxItem>listbox item 3</ListBoxItem>
-                <ListBoxItem>listbox item 4</ListBoxItem>
-                <ListBoxItem>listbox item 5</ListBoxItem>
-            </ListBox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Top users" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="20 0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <TextBox Margin="8 0 0 0" materialDesign:HintAssist.Hint="Find employees" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                     BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
+                            </Grid>
+                            <Grid Grid.Column="1">
+                                <Button Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="Search" Opacity=".56" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel.Resources>
+                        <Style TargetType="Grid">
+                            <Setter Property="Margin" Value="6 0"/>
+                        </Style>
+                        <Style TargetType="Label">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        </Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Orientation" Value="Horizontal"/>
+                        </Style>
+                        <Style TargetType="materialDesign:PackIcon">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Grid>
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}" materialDesign:ButtonAssist.CornerRadius="10"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                    Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="PlusThick"/>
+                                <Label Content="Add"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
+                    <Grid>
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}" materialDesign:ButtonAssist.CornerRadius="10"
+                                Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
+                            <StackPanel>
+                                <materialDesign:PackIcon Kind="PlusThick"/>
+                                <Label Content="Import"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Grid>
         </Grid>
         
         <Grid Grid.Row="2">
