@@ -196,14 +196,19 @@
         </Grid>
         
         <Grid Grid.Row="2">
-            <ListView>
+            <ListView ItemsSource="{Binding EmployeeSourceData}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Full name"/>
-                        <GridViewColumn Header="Email" />
-                        <GridViewColumn Header="Tags"/>
-                        <GridViewColumn Header="Socials"/>
-                        <GridViewColumn Header="Status" />
+                        <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>
+                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
+                        <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}"/>
+                        <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
+                        <GridViewColumn Header="Province" DisplayMemberBinding="{Binding Province}"/>
+                        <GridViewColumn Header="District" DisplayMemberBinding="{Binding District}"/>
+                        <GridViewColumn Header="Detail address" DisplayMemberBinding="{Binding DetailAddress}"/>
+                        <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}"/>
+                        <GridViewColumn Header="Position" DisplayMemberBinding="{Binding Position}"/>
+                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

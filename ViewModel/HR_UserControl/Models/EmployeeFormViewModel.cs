@@ -1,7 +1,14 @@
-﻿using System;
+﻿using HR_Management.HR_Libs;
+using HR_Management.Model;
+using MaterialDesignThemes.Wpf;
+using MongoDB.Driver;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,25 +17,28 @@ using System.Windows.Input;
 
 namespace HR_Management.ViewModel.HR_UserControl.Models
 {
-    public class EmployeeFormViewModel : BaseViewModel
+    public class EmployeeFormViewModel : BaseViewModel, IDataErrorInfo
     {
         private bool _canAdd = true;
 
-        private String p_fullName;
-        private String p_email;
-        private String p_phone;
-        private String p_gender;
-        private String p_province;
-        private String p_district;
-        private String p_detailAddress;
-        private String p_department;
-        private String p_position;
-        private String p_status;
+        private String p_fullName { get; set; }
+        private String p_email { get; set; }
+        private String p_phone { get; set; }
+        private Boolean p_gender { get; set; }
+        private String p_province { get; set; }
+        private String p_district { get; set; }
+        private String p_detailAddress { get; set; }
+        private String p_department { get; set; }
+        private String p_position { get; set; }
+        private String p_status { get; set; }
 
+        // @TODO: Validate data stuff
+        // https://docs.microsoft.com/en-us/previous-versions/windows/apps/743swcz7(v=vs.105)
+        // 
         public String MFullName { get => p_fullName; set { p_fullName = value; OnPropertyChanged(); } }
         public String MEmail { get => p_email; set { p_email = value; OnPropertyChanged(); } }
-        public String MPhone { get => p_phone; set { p_phone = value; OnPropertyChanged(); } } 
-        public String MGender { get => p_gender; set { p_gender = value; OnPropertyChanged(); } }
+        public String MPhone { get => p_phone; set { p_phone = value; OnPropertyChanged(); } }
+        public Boolean MGender { get => p_gender; set { p_gender = value; OnPropertyChanged(); } }
         public String MProvince { get => p_province; set { p_province = value; OnPropertyChanged(); } }
         public String MDistrict { get => p_district; set { p_district = value; OnPropertyChanged(); } }
         public String MDetailAddress { get => p_detailAddress; set { p_detailAddress = value; OnPropertyChanged(); } }
@@ -40,16 +50,153 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
 
         public EmployeeFormViewModel()
         {
-            AddNewEmployeeCommand = new AsyncDoubleParamCommand<Button, Button>((p, v) => { return this._canAdd; }, (p, v) =>
+            AddNewEmployeeCommand = new AsyncQuadraParamCommand<Button, Button, ProgressBar, Snackbar>((p, v, x, w) =>
+            {
+                return this._canAdd;
+            },
+            (p, v, x, w) =>
             {
                 this._canAdd = false;
+                try
+                {
+                    x.Dispatcher.Invoke(new Action(() => { x.Visibility = Visibility.Visible; }));
+                    String data_json = JsonConvert.SerializeObject(new EmployeeInfoModel
+                    {
+                        FullName = this.p_fullName,
+                        Email = this.p_email,
+                        Phone = this.p_phone,
+                        Gender = this.p_gender,
+                        Province = this.p_province,
+                        District = this.p_district,
+                        DetailAddress = this.p_detailAddress,
+                        Department = this.p_department,
+                        Position = this.p_position,
+                        Status = this.p_status
+                    });
 
-                Thread.Sleep(1000);
+                    MongoDefine define = new MongoDefine();
+                    MongoCRUD crud = MongodbRequest.Instance().StartDbSession(define.HR_DATA_DB);
+                    crud.InsertOne(define.HR_EMPOYEE_INFO_COLLECTION, data_json);
+                    w.Dispatcher.Invoke(new Action(() => { w.Message.Content = "Insert successfully!"; }));
+                }
+                catch (MongoWriteException ex)
+                {
+                    w.Dispatcher.Invoke(new Action(() => { w.Message.Content = ex.Message; }));
+                }
 
                 this._canAdd = true;
-
+                x.Dispatcher.Invoke(new Action(() => { x.Visibility = Visibility.Hidden; }));
+                w.Dispatcher.Invoke(new Action(() => { w.IsActive = true; }));
                 return true;
             });
+        }
+
+        public String Error { get { return null; } }
+
+        public String this[String name]
+        {
+            get
+            {
+                String result = "";
+                switch (name)
+                {
+                    case "MFullName":
+                        if (MFullName == "")
+                        {
+                            result = "Tên bắt buộc nhập!";
+                            goto fail;
+                        }
+                        else
+                        {
+                            goto success;
+                        }
+                    case "MEmail":
+                        if (MEmail == "")
+                        {
+                            result = "Email bắt buộc nhập!";
+                            goto fail;
+                        }
+                        else
+                        {
+                            bool ok = this.IsValidEmail();
+                            if (ok == false)
+                            {
+                                result = "Email is not valid!";
+                                goto fail;
+                            }
+                            else
+                            {
+                                goto success;
+                            }
+                        }
+                    case "MPhone":
+                        if (MPhone == "")
+                        {
+                            result = "Phone is required!";
+                            goto fail;
+                        }
+                        else
+                        {
+                            bool ok = this.IsPhoneNumber();
+                            if (ok == false)
+                            {
+                                result = "Phone is not valid!";
+                                goto fail;
+                            }
+                            else
+                            {
+                                goto success;
+                            }
+                        }
+                    case "MDetailAddress":
+                        if (MDetailAddress == "")
+                        {
+                            result = "Detail addess is required!";
+                            goto fail;
+                        }
+                        else
+                        {
+                            goto success;
+                        }
+                    default:
+                        goto success;
+                }
+            fail:
+                _canAdd = false;
+                goto exit;
+            success:
+                _canAdd = true;
+                goto exit;
+            exit:
+                return result;
+            }
+        }
+
+        private bool IsValidEmail()
+        {
+            if (MEmail != null && MEmail.EndsWith("."))
+            {
+                return false;
+            }
+            else if (MEmail == null)
+            {
+                return true;
+            }
+
+            try
+            {
+                var validateEmail = new System.Net.Mail.MailAddress(MEmail);
+                return validateEmail.Address == MEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool IsPhoneNumber()
+        {
+            return Regex.Match(MPhone, @"^(\+[0-9]{9})$").Success;
         }
     }
 }

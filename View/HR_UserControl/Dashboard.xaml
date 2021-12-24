@@ -407,12 +407,14 @@
                         </Grid>
 
                         <Grid Grid.Row="1">
-                            <ListView ItemsSource="{Binding Items1}">
+                            <ListView HorizontalContentAlignment="Left" ItemsSource="{Binding EmployeeSourceData}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Full name"/>
-                                        <GridViewColumn Header="Email address" />
-                                        <GridViewColumn Header="Status" />
+                                        <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>
+                                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
+                                        <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
+                                        <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}"/>
+                                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>

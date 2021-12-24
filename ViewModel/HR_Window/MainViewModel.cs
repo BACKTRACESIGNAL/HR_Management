@@ -60,6 +60,11 @@ namespace HR_Management.ViewModel.HR_Window
 
         public MainViewModel()
         {
+            // Start up database instance
+            StartUp startUp = new StartUp();
+            bool ok = startUp.Load();
+
+            // Assign Commands
             this.selectedPage = PAGE.DASHBOARD;
             LoadDashboardCommand = new RelayTripleParamCommand<Grid, Label, Label>((p, t, s) => { return true;  }, (p, t, s) =>
             {

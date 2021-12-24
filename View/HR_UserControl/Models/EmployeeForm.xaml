@@ -22,221 +22,239 @@
                 <Setter Property="FontFamily" Value="Segoe UI"/>
             </Style>
         </Grid.Resources>
-        <Border BorderBrush="LightCoral" BorderThickness="1">
-            <ScrollViewer HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
-                <Grid Margin="20">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0">
+        <Grid Grid.Row="0">
+            <ProgressBar x:Name="ProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 10 0 0">
+            <Border BorderBrush="LightCoral" BorderThickness="1">
+                <ScrollViewer HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="20">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0">
-                            <Label Content="Add New Employee" FontWeight="SemiBold" FontSize="30"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel.Resources>
-                                    <Style TargetType="Label">
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                        <Setter Property="FontSize" Value="14"/>
-                                        <Setter Property="Margin" Value="0 5"/>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <!-- Row one -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
 
-                                    <Grid Grid.Column="0" Margin="0 0 15 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Full Name"/>
-                                                <Label Content="*" Foreground="Red"/>
+                            <Grid Grid.Row="0">
+                                <Label Content="Add New Employee" FontWeight="SemiBold" FontSize="30"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Margin" Value="0 5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <!-- Row one -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Full Name"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding MFullName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your full name"/>
                                             </StackPanel>
-                                            <TextBox Text="{Binding MFullName}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your full name"/>
-                                        </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Email"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                     materialDesign:HintAssist.Hint="Enter your email address"
+                                                     Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
 
-                                    <Grid Grid.Column="1" Margin="15 0 0 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Email"/>
-                                                <Label Content="*" Foreground="Red"/>
-                                            </StackPanel>
-                                            <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your email address"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
+                                    <!-- Row Two -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
 
-                                <!-- Row Two -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Grid.Column="0" Margin="0 0 15 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Phone"/>
-                                                <Label Content="*" Foreground="Red"/>
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Phone"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your phone number"/>
                                             </StackPanel>
-                                            <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your phone number"/>
-                                        </StackPanel>
+                                        </Grid>
+
                                     </Grid>
 
-                                </Grid>
-
-                                <!-- Row Three -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid Grid.Column="1" Margin="0 15 0 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Gender"/>
-                                                <Label Content="*" Foreground="Red"/>
+                                    <!-- Row Three -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid Grid.Column="1" Margin="0 15 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Gender"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <RadioButton IsChecked="True">
+                                                        <RadioButton.Content>
+                                                            <Label Content="Male"/>
+                                                        </RadioButton.Content>
+                                                    </RadioButton>
+                                                    <RadioButton Margin="20 0 0 0">
+                                                        <RadioButton.Content>
+                                                            <Label Content="Female"/>
+                                                        </RadioButton.Content>
+                                                    </RadioButton>
+                                                </StackPanel>
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <RadioButton IsChecked="True">
-                                                    <RadioButton.Content>
-                                                        <Label Content="Male"/>
-                                                    </RadioButton.Content>
-                                                </RadioButton>
-                                                <RadioButton Margin="20 0 0 0">
-                                                    <RadioButton.Content>
-                                                        <Label Content="Female"/>
-                                                    </RadioButton.Content>
-                                                </RadioButton>
-                                            </StackPanel>
-                                        </StackPanel>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
 
-                                <!-- Row Four -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Grid.Column="0" Margin="0 0 15 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Province"/>
-                                                <Label Content="*" Foreground="Red"/>
-                                            </StackPanel>
-                                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select province"
+                                    <!-- Row Four -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Province"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select province"
                                                   ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
-                                        </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="District"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
+                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                            </StackPanel>
+                                        </Grid>
                                     </Grid>
 
-                                    <Grid Grid.Column="1" Margin="15 0 0 0">
+                                    <!-- Row Five -->
+                                    <Grid Margin="0 10 0 0">
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="District"/>
+                                                <Label Content="Detail address"/>
                                                 <Label Content="*" Foreground="Red"/>
                                             </StackPanel>
-                                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
-
-                                <!-- Row Five -->
-                                <Grid Margin="0 10 0 0">
-                                    <StackPanel Orientation="Vertical">
-                                        <StackPanel Orientation="Horizontal">
-                                            <Label Content="Detail address"/>
-                                            <Label Content="*" Foreground="Red"/>
-                                        </StackPanel>
-                                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top"
+                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top"
                                              Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
                                              VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="This is a text area"/>
-                                    </StackPanel>
-                                </Grid>
-
-                                <!-- Row Six -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Grid.Column="0" Margin="0 0 15 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Departments"/>
-                                                <Label Content="*" Foreground="Red"/>
-                                            </StackPanel>
-                                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
                                         </StackPanel>
                                     </Grid>
 
-                                    <Grid Grid.Column="1" Margin="15 0 0 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Position"/>
-                                                <Label Content="*" Foreground="Red"/>
-                                            </StackPanel>
-                                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select position"
+                                    <!-- Row Six -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Departments"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
                                                   ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
-
-                                <!-- Row Status -->
-                                <Grid Margin="0 10 0 0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <Grid Grid.Column="0" Margin="0 0 15 0">
-                                        <StackPanel Orientation="Vertical">
-                                            <StackPanel Orientation="Horizontal">
-                                                <Label Content="Status"/>
-                                                <Label Content="*" Foreground="Red"/>
                                             </StackPanel>
-                                            <ComboBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Position"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select position"
+                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Row Status -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Status"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
                                                       materialDesign:TextFieldAssist.HasClearButton="True">
-                                                <ComboBoxItem Content="Active"/>
-                                            </ComboBox>
+                                                    <ComboBoxItem Content="Active"/>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                        </Grid>
+                                    </Grid>
+
+                                    <Grid Margin="0 10 0 0">
+                                        <materialDesign:Snackbar x:Name="SnackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
+                                    </Grid>
+
+                                    <!-- Row Final -->
+                                    <Grid Margin="0 20 0 0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}"
+                                                Content="Cancel" Margin="5" x:Name="CloseFormName" />
+                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="AddFormButton"
+                                                Content="Add" Margin="5" Style="{StaticResource MaterialDesignOutlinedDarkButton}">
+                                                <Button.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
+                                                        <Binding ElementName="CloseFormName"/>
+                                                        <Binding ElementName="AddFormButton"/>
+                                                        <Binding ElementName="ProgressBarName"/>
+                                                        <Binding ElementName="SnackBarMessageName"/>
+                                                    </MultiBinding>
+                                                </Button.CommandParameter>
+                                            </Button>
                                         </StackPanel>
                                     </Grid>
-
-                                    <Grid Grid.Column="1">
-
-                                    </Grid>
-                                </Grid>
-
-                                <!-- Row Final -->
-                                <Grid Margin="0 20 0 0">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}"
-                                                Content="Cancel" Margin="5" x:Name="CloseFormName" />
-                                        <Button Command="{Binding AddNewEmployeeCommand}" x:Name="AddFormButton"
-                                                Content="Add" Margin="5" Style="{StaticResource MaterialDesignOutlinedDarkButton}">
-                                            <Button.CommandParameter>
-                                                <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
-                                                    <Binding ElementName="CloseFormName"/>
-                                                    <Binding ElementName="AddFormButton"/>
-                                                </MultiBinding>
-                                            </Button.CommandParameter>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
+                                </StackPanel>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </ScrollViewer>
-        </Border>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

@@ -31,6 +31,9 @@
     <Compile Update="View\HR_UserControl\Unsupported.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\UtilityView\Loading.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Resource\XAML\MainDictionary.xaml">
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_Window\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\UtilityView\Loading.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

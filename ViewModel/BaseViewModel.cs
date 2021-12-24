@@ -286,5 +286,52 @@ namespace HR_Management.ViewModel
                 await Task.Factory.StartNew(() => { _execute((T)values[0], (V)values[1]); });
             }
         }
+
+        public class AsyncQuadraParamCommand<T, V, X, W> : ICommand
+        {
+            private readonly Func<T, V, X, W, bool> _canExecute;
+            private readonly Func<T, V, X, W, bool> _execute;
+
+            public AsyncQuadraParamCommand(Func<T, V, X, W, bool> canExecute, Func<T, V, X, W, bool> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add => CommandManager.RequerySuggested += value;
+                remove => CommandManager.RequerySuggested -= value;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    var values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1], (X)values[2], (W)values[3]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public async void Execute(object parameter)
+            {
+                var values = parameter as Object[];
+                await Task.Factory.StartNew(() => { _execute((T)values[0], (V)values[1], (X)values[2], (W)values[3]); });
+            }
+        }
     }
 }
