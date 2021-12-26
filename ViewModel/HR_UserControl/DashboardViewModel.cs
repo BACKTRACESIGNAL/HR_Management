@@ -19,7 +19,6 @@ namespace HR_Management.ViewModel.HR_UserControl
         public DashboardViewModel()
         {
             this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>();
-            //MongoDefine define = new MongoDefine();
             //List<EmployeeInfoModel> employees = MongodbRequest.Instance().StartDbSession(define.HR_DATA_DB).GetMany<EmployeeInfoModel>(define.HR_EMPOYEE_INFO_COLLECTION);
 
             //this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>(employees);

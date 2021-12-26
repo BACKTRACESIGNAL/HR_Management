@@ -110,19 +110,26 @@
                                 <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
                                     <Binding ElementName="mainViewName"/>
                                     <Binding ElementName="mainLabelName"/>
-                                    <Binding ElementName="btnDashboardName"/>
+                                    <Binding ElementName="lbDashboardName"/>
                                 </MultiBinding>
                             </Button.CommandParameter>
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MenuOpen"/>
-                                <Label x:Name="btnDashboardName" Content="Dashboard"/>
+                                <Label x:Name="lbDashboardName" Content="Dashboard"/>
                             </StackPanel>
                         </Button>
-                        <Button Command="{Binding LoadEmployeeCommand}" CommandParameter="{Binding ElementName=mainViewName}">
+                        <Button Command="{Binding LoadEmployeeCommand}">
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
+                                    <Binding ElementName="mainViewName"/>
+                                    <Binding ElementName="mainLabelName"/>
+                                    <Binding ElementName="lbEmployeeName"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountMultipleOutline"/>
-                                    <Label Content="Employee"/>
+                                    <Label x:Name="lbEmployeeName" Content="Employee"/>
                                     <materialDesign:Chip Content="12"/>
                                 </StackPanel>
                             </Button.Content>
@@ -281,7 +288,7 @@
                     </DockPanel>
                 </Grid>
 
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Margin="0 5 0 0">
                     <ScrollViewer>
                         <Grid x:Name="mainViewName">
                             <views:Dashboard/>

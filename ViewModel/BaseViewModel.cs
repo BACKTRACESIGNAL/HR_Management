@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace HR_Management.ViewModel
@@ -61,6 +62,194 @@ namespace HR_Management.ViewModel
                 remove { CommandManager.RequerySuggested -= value; }
             }
         }
+
+        public class RelayCommand<T, V> : ICommand
+        {
+            protected readonly Func<T, V, bool> _canExecute;
+            protected readonly Action<T, V> _execute;
+
+            public RelayCommand(Func<T, V, bool> canExecute, Action<T, V> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                object[] values = parameter as object[];
+                _execute((T)values[0], (V)values[1]);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+
+        public class RelayCommand<T, V, W> : ICommand
+        {
+            protected readonly Func<T, V, W, bool> _canExecute;
+            protected readonly Action<T, V, W> _execute;
+
+            public RelayCommand(Func<T, V, W, bool> canExecute, Action<T, V, W> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1], (W)values[2]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                object[] values = parameter as object[];
+                _execute((T)values[0], (V)values[1], (W)values[2]);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+        public class RelayCommand<T, V, W, X> : ICommand
+        {
+            protected readonly Func<T, V, W, X, bool> _canExecute;
+            protected readonly Action<T, V, W, X> _execute;
+
+            public RelayCommand(Func<T, V, W, X, bool> canExecute, Action<T, V, W, X> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1], (W)values[2], (X)values[3]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                object[] values = parameter as object[];
+                _execute((T)values[0], (V)values[1], (W)values[2], (X)values[3]);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+
+        public class RelayCommand<T, V, W, X, Z> : ICommand
+        {
+            protected readonly Func<T, V, W, X, Z, bool> _canExecute;
+            protected readonly Action<T, V, W, X, Z> _execute;
+
+            public RelayCommand(Func<T, V, W, X, Z, bool> canExecute, Action<T, V, W, X, Z> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1], (W)values[2], (X)values[3], (Z)values[4]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                object[] values = parameter as object[];
+                _execute((T)values[0], (V)values[1], (W)values[2], (X)values[3], (Z)values[4]);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+
 
         public class RelayDoubleParamCommand<T, V> : ICommand
         {

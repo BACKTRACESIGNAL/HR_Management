@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static HR_Management.HR_Libs.MongoDefine;
 
 namespace HR_Management.HR_Libs
 {
@@ -41,10 +42,10 @@ namespace HR_Management.HR_Libs
             this.m_connectionString = connectionString;
         }
 
-        public MongoCRUD StartDbSession(String database)
+        public MongoCRUD StartDbSession(DATABASE database)
         {
             var client = new MongoClient(this.m_connectionString);
-            MongoCRUD crud = new MongoCRUD(client.GetDatabase(database));
+            MongoCRUD crud = new MongoCRUD(client.GetDatabase(database.ToDescriptionString()));
             return crud;
         }
     }

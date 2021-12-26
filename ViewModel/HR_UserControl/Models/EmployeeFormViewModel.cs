@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
     {
         private bool _canAdd = true;
 
+        private ProgressBar p_progressBar;
+
         private String p_fullName { get; set; }
         private String p_email { get; set; }
         private String p_phone { get; set; }
@@ -31,6 +34,10 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
         private String p_department { get; set; }
         private String p_position { get; set; }
         private String p_status { get; set; }
+
+        public ObservableCollection<Administrative> ProvincesSource;
+        public ObservableCollection<Administrative> DistrictsSource;
+        public ObservableCollection<Administrative> WardsSource;
 
         // @TODO: Validate data stuff
         // https://docs.microsoft.com/en-us/previous-versions/windows/apps/743swcz7(v=vs.105)
@@ -50,6 +57,7 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
 
         public EmployeeFormViewModel()
         {
+            // register command
             AddNewEmployeeCommand = new AsyncQuadraParamCommand<Button, Button, ProgressBar, Snackbar>((p, v, x, w) =>
             {
                 return this._canAdd;
@@ -74,9 +82,8 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                         Status = this.p_status
                     });
 
-                    MongoDefine define = new MongoDefine();
-                    MongoCRUD crud = MongodbRequest.Instance().StartDbSession(define.HR_DATA_DB);
-                    crud.InsertOne(define.HR_EMPOYEE_INFO_COLLECTION, data_json);
+                    MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                    crud.InsertOne(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, data_json);
                     w.Dispatcher.Invoke(new Action(() => { w.Message.Content = "Insert successfully!"; }));
                 }
                 catch (MongoWriteException ex)
@@ -89,7 +96,14 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                 w.Dispatcher.Invoke(new Action(() => { w.IsActive = true; }));
                 return true;
             });
+
+            // load data async
+            this.ProvincesSource = new ObservableCollection<Administrative>();
+            this.DistrictsSource = new ObservableCollection<Administrative>();
+            this.WardsSource     = new ObservableCollection<Administrative>();
         }
+
+        // Validate propertyOnChanged
 
         public String Error { get { return null; } }
 
@@ -197,6 +211,30 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
         private bool IsPhoneNumber()
         {
             return Regex.Match(MPhone, @"^(\+[0-9]{9})$").Success;
+        }
+
+        // Load administrative async
+        private async Task LoadAdministrativeAsync()
+        {
+            await Task.Run(() => { this.LoadAdministrative(); });
+        }
+
+        private void LoadAdministrative()
+        {
+            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Visible; }));
+            Administrative filter = new Administrative() { administrative_type = 1 };
+            String data_json = JsonConvert.SerializeObject(filter);
+
+
+            MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+            List<Administrative> provinces = crud.GetMany<Administrative>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+
+            foreach(Administrative province in provinces)
+            {
+                App.Current.Dispatcher.Invoke(new Action(() => { this.ProvincesSource.Add(province); }));
+            }
+
+            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Hidden; }));
         }
     }
 }

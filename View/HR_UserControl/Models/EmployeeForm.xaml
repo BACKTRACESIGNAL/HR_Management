@@ -155,12 +155,24 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
-
+                                    
                                     <!-- Row Five -->
+                                    <Grid Margin="0 10 0 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="Ward"/>
+                                                <Label Content="*" Foreground="Red"/>
+                                            </StackPanel>
+                                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select ward"
+                                                      ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Row Six -->
                                     <Grid Margin="0 10 0 0">
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
@@ -173,7 +185,7 @@
                                         </StackPanel>
                                     </Grid>
 
-                                    <!-- Row Six -->
+                                    <!-- Row Seven -->
                                     <Grid Margin="0 10 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>

@@ -24,7 +24,6 @@ namespace HR_Management.ViewModel.HR_Window
             ONBOARDING,
             OFFBOARDING,
             UNSUPPORTED,
-
         };
 
         private PAGE selectedPage { get; set; }
@@ -66,12 +65,11 @@ namespace HR_Management.ViewModel.HR_Window
 
             // Assign Commands
             this.selectedPage = PAGE.DASHBOARD;
-            LoadDashboardCommand = new RelayTripleParamCommand<Grid, Label, Label>((p, t, s) => { return true;  }, (p, t, s) =>
+            LoadDashboardCommand = new RelayCommand<Grid, Label, Label>((p, t, s) => { return true;  }, (p, t, s) =>
             {
                 if (p == null || t == null || s == null)
                 {
                     // TODO: Handle if params is null
-                    return false;
                 }
                 else if (this.selectedPage != PAGE.DASHBOARD)
                 {
@@ -79,22 +77,19 @@ namespace HR_Management.ViewModel.HR_Window
                     UserControl showView = new Dashboard();
                     this.ShowUserControlAnimate(showView, p).Begin();
                     this.selectedPage = PAGE.DASHBOARD;
-
-                    return true;
                 }
-
-                return true;
             });
 
-            LoadEmployeeCommand = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            LoadEmployeeCommand = new RelayCommand<Grid, Label, Label>((p, t, s) => { return true; }, (p, t, s) =>
             {
-                if (p == null)
+                if (p == null || t == null || s == null)
                 {
                     // TODO: Handle if params is null
                     return;
                 }
                 else if (this.selectedPage != PAGE.EMPLOYEE)
                 {
+                    t.Content= s.Content;
                     UserControl showView = new Employee();
                     this.ShowUserControlAnimate(showView, p).Begin();
                     this.selectedPage = PAGE.EMPLOYEE;

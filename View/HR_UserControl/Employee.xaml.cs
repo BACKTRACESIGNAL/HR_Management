@@ -25,7 +25,7 @@ namespace HR_Management.View.HR_UserControl
         public Employee()
         {
             InitializeComponent();
-            this.DataContext = viewModel = new EmployeeViewModel();
+            this.DataContext = viewModel = new EmployeeViewModel(mainProgressBarName);
         }
     }
 }

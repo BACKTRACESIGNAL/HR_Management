@@ -7,15 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HR_Management.ViewModel.HR_UserControl
 {
     public class EmployeeViewModel : BaseViewModel
     {
+        private ProgressBar p_progressBar;
+
         public ObservableCollection<EmployeeInfoModel> EmployeeSourceData { get; set; }
 
-        public EmployeeViewModel()
+        public EmployeeViewModel(ProgressBar progressBar)
         {
+            this.p_progressBar = progressBar;
             this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>();
             _ = LoadDataAsync();
             
@@ -28,9 +32,9 @@ namespace HR_Management.ViewModel.HR_UserControl
 
         private void LoadData()
         {
-            MongoDefine define = new MongoDefine();
-            MongoCRUD crud = MongodbRequest.Instance().StartDbSession(define.HR_DATA_DB);
-            List<EmployeeInfoModel> employees = crud.GetMany<EmployeeInfoModel>(define.HR_EMPOYEE_INFO_COLLECTION, "{}");
+            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Visible; }));
+            MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+            List<EmployeeInfoModel> employees = crud.GetMany<EmployeeInfoModel>(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, "{}");
 
             foreach(EmployeeInfoModel employee in employees)
             {
@@ -38,8 +42,8 @@ namespace HR_Management.ViewModel.HR_UserControl
                     this.EmployeeSourceData.Add(employee);
                 });
             }
-            //this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>(employees);
-            MessageBox.Show(this.EmployeeSourceData.Count.ToString());
+
+            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Hidden; }));
         }
     }
 }
