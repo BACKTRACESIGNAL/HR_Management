@@ -2,6 +2,8 @@
 using HR_Management.Model;
 using HR_Management.View.HR_UserControl.Models;
 using MaterialDesignThemes.Wpf;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,15 +16,15 @@ namespace HR_Management.ViewModel.HR_UserControl
 {
     public class EmployeeViewModel : BaseViewModel
     {
-        public ObservableCollection<EmployeeInfoModel> EmployeeSourceData { get; set; }
+        public ObservableCollection<EmployeeInfo> EmployeeSourceData { get; set; }
 
         public ICommand LoadMainFormCommand { get; set; }
-        public ICommand LoadMainListViewName { get; set; }
+        public ICommand LoadEmployeeCommand { get; set; }
 
         public EmployeeViewModel()
         {
             // Initial data
-            this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>();
+            this.EmployeeSourceData = new ObservableCollection<EmployeeInfo>();
 
             // Command
             // Load main form content
@@ -38,13 +40,14 @@ namespace HR_Management.ViewModel.HR_UserControl
             });
 
             // Load main list view
-            LoadMainListViewName = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            LoadEmployeeCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
             {
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Empty;
                 MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                List<EmployeeInfoModel> employees = crud.GetMany<EmployeeInfoModel>(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, "{}");
+                List<EmployeeInfo> employees = crud.GetDistinct<EmployeeInfo>(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, "EmployeeInfos", filter);
 
-                foreach (EmployeeInfoModel employee in employees)
+                foreach (EmployeeInfo employee in employees)
                 {
                     App.Current.Dispatcher.Invoke(() => {
                         this.EmployeeSourceData.Add(employee);

@@ -209,7 +209,7 @@
             <ListView ItemsSource="{Binding EmployeeSourceData}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{ Binding LoadMainListViewName }" CommandParameter="{ Binding ElementName=mainProgressBarName}"/>
+                        <i:InvokeCommandAction Command="{ Binding LoadEmployeeCommand }" CommandParameter="{ Binding ElementName=mainProgressBarName}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ListView.View>
@@ -218,12 +218,9 @@
                         <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
                         <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}"/>
                         <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
-                        <GridViewColumn Header="Province" DisplayMemberBinding="{Binding Province}"/>
-                        <GridViewColumn Header="District" DisplayMemberBinding="{Binding District}"/>
-                        <GridViewColumn Header="Detail address" DisplayMemberBinding="{Binding DetailAddress}"/>
-                        <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}"/>
-                        <GridViewColumn Header="Position" DisplayMemberBinding="{Binding Position}"/>
-                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
+                        <GridViewColumn Header="Province" DisplayMemberBinding="{Binding ProvinceName}"/>
+                        <GridViewColumn Header="District" DisplayMemberBinding="{Binding DistrictName}"/>
+                        <GridViewColumn Header="Ward" DisplayMemberBinding="{Binding WardName}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

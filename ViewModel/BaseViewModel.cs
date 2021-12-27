@@ -476,12 +476,12 @@ namespace HR_Management.ViewModel
             }
         }
 
-        public class AsyncDoubleParamCommand<T, V> : ICommand
+        public class AsyncCommand<T, V, W> : ICommand
         {
-            private readonly Func<T, V, bool> _canExecute;
-            private readonly Func<T, V, bool> _execute;
+            private readonly Func<T, V, W, bool> _canExecute;
+            private readonly Action<T, V, W> _execute;
 
-            public AsyncDoubleParamCommand(Func<T, V, bool> canExecute, Func<T, V, bool> execute)
+            public AsyncCommand(Func<T, V, W, bool> canExecute, Action<T, V, W> execute)
             {
                 if (execute == null)
                 {
@@ -507,8 +507,8 @@ namespace HR_Management.ViewModel
 
                 try
                 {
-                    var values = parameter as object[];
-                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1]);
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1], (W)values[2]);
                 }
                 catch
                 {
@@ -518,17 +518,17 @@ namespace HR_Management.ViewModel
 
             public async void Execute(object parameter)
             {
-                var values = parameter as Object[];
-                await Task.Factory.StartNew(() => { _execute((T)values[0], (V)values[1]); });
+                object[] values = parameter as Object[];
+                await Task.Factory.StartNew(() => { _execute((T)values[0], (V)values[1], (W)values[2]); });
             }
         }
 
-        public class AsyncQuadraParamCommand<T, V, X, W> : ICommand
+        public class AsyncCommand<T, V, X, W> : ICommand
         {
             private readonly Func<T, V, X, W, bool> _canExecute;
             private readonly Func<T, V, X, W, bool> _execute;
 
-            public AsyncQuadraParamCommand(Func<T, V, X, W, bool> canExecute, Func<T, V, X, W, bool> execute)
+            public AsyncCommand(Func<T, V, X, W, bool> canExecute, Func<T, V, X, W, bool> execute)
             {
                 if (execute == null)
                 {

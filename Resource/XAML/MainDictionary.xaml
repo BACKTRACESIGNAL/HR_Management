@@ -3,7 +3,8 @@
                     xmlns:windowViewModel="clr-namespace:HR_Management.ViewModel.HR_Window"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <converter:CommandParamsComverter x:Key="CCommandParamsConvert"/>
+    <converter:CommandParamsComverter x:Key="CCommandParamsConverter"/>
+    <converter:GenderConverter x:Key="CGenderConverter"/>
 
     <windowViewModel:MainViewModel x:Key="DMainViewModel"/>
 </ResourceDictionary>

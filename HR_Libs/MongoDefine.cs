@@ -13,7 +13,7 @@ namespace HR_Management.HR_Libs
         public enum DATABASE
         {
             [Description("HR_DATA")]
-            HR_DATA_DB
+            HR_DATA_DB,
         }
 
         public enum COLLECTION
@@ -21,7 +21,11 @@ namespace HR_Management.HR_Libs
             [Description("HR_EMPLOYEE_INFO")]
             HR_EMPOYEE_INFO_COLLECTION,
             [Description("ADMINISTRATIVE_VN")]
-            HR_ADMINISTRATIVE_VN_COLLECTION
+            HR_ADMINISTRATIVE_VN_COLLECTION,
+            [Description("HR_DEPARTMENT")]
+            HR_DEPARTMENT_COLLECTION,
+            [Description("HR_POSITION")]
+            HR_POSITION_COLLECTION,
         }
 
     }

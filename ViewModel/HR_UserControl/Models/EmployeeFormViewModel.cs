@@ -1,17 +1,13 @@
 ﻿using HR_Management.HR_Libs;
 using HR_Management.Model;
 using MaterialDesignThemes.Wpf;
+using MongoDB.Bson;
 using MongoDB.Driver;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,44 +16,49 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
 {
     public class EmployeeFormViewModel : BaseViewModel, IDataErrorInfo
     {
-        private int _loadCount = 0;
         private bool _canAdd = true;
 
-        private String p_fullName { get; set; }
-        private String p_email { get; set; }
-        private String p_phone { get; set; }
-        private Boolean p_gender { get; set; }
-        private String p_province { get; set; }
-        private String p_district { get; set; }
-        private String p_ward { get; set; }
-        private String p_detailAddress { get; set; }
-        private String p_department { get; set; }
-        private String p_position { get; set; }
-        private String p_status { get; set; }
+        private String _employeeCode { get; set; }
+        private String _fullName { get; set; }
+        private String _email { get; set; }
+        private String _phone { get; set; }
+        private long   _gender { get; set; }
+        private String _detailAddress { get; set; }
+
+        private AdminisProvince _selectedAdminisProvince { get; set; }
+        private AdminisDistrict _selectedAdminisDistrict { get; set; }
+        private AdminisWard _selectedAdminisWard { get; set; }
+        private Department _selectedDepartment { get; set; }
+        private Position _selectedPosition { get; set; }
+
+        // @TODO: Validate data stuff
+        // https://docs.microsoft.com/en-us/previous-versions/windows/apps/743swcz7(v=vs.105)
+        //
+        public String MEmployeeCode { get => _employeeCode; set { _employeeCode = value; OnPropertyChanged(); } }
+        public String MFullName { get => _fullName; set { _fullName = value; OnPropertyChanged(); } }
+        public String MEmail { get => _email; set { _email = value; OnPropertyChanged(); } }
+        public String MPhone { get => _phone; set { _phone = value; OnPropertyChanged(); } }
+        public long   MGender { get => _gender; set { _gender = value; OnPropertyChanged(); } }
+        public String MDetailAddress { get => _detailAddress; set { _detailAddress = value; OnPropertyChanged(); } }
+
+        public AdminisProvince SelectedAdminisProvince { get => this._selectedAdminisProvince; set { this._selectedAdminisProvince = value; OnPropertyChanged(); } }
+        public AdminisDistrict SelectedAdminisDistrict { get => this._selectedAdminisDistrict; set { this._selectedAdminisDistrict = value; OnPropertyChanged(); } }
+        public AdminisWard SelectedAdminisWard { get => this._selectedAdminisWard; set { this._selectedAdminisWard = value; OnPropertyChanged(); } }
+        public Department SelectedDepartment { get => this._selectedDepartment; set { this._selectedDepartment = value; OnPropertyChanged(); } }
+        public Position SelectedPosition { get => this._selectedPosition; set { this._selectedPosition = value; OnPropertyChanged(); } }
 
         public ObservableCollection<AdminisProvince> ProvincesSource { get; set; }
         public ObservableCollection<AdminisDistrict> DistrictsSource { get; set; }
         public ObservableCollection<AdminisWard> WardsSource { get; set; }
-
-        // @TODO: Validate data stuff
-        // https://docs.microsoft.com/en-us/previous-versions/windows/apps/743swcz7(v=vs.105)
-        // 
-        public String MFullName { get => p_fullName; set { p_fullName = value; OnPropertyChanged(); } }
-        public String MEmail { get => p_email; set { p_email = value; OnPropertyChanged(); } }
-        public String MPhone { get => p_phone; set { p_phone = value; OnPropertyChanged(); } }
-        public Boolean MGender { get => p_gender; set { p_gender = value; OnPropertyChanged(); } }
-        public String MProvince { get => p_province; set { p_province = value; OnPropertyChanged(); } }
-        public String MDistrict { get => p_district; set { p_district = value; OnPropertyChanged(); } }
-        public String MWard { get => p_ward; set { p_ward = value; OnPropertyChanged(); } }
-        public String MDetailAddress { get => p_detailAddress; set { p_detailAddress = value; OnPropertyChanged(); } }
-        public String MDepartment { get => p_department; set { p_department = value; OnPropertyChanged(); } }
-        public String MPosition { get => p_position; set { p_position = value; OnPropertyChanged(); } }
-        public String MStatus { get => p_status; set { p_status = value; OnPropertyChanged(); } }
+        public ObservableCollection<Department> DepartmentsSource { get; set; }
+        public ObservableCollection<Position> PositionsSource { get; set; }
 
         public ICommand AddNewEmployeeCommand { get; set; }
         public ICommand LoadProvinceCommand { get; set; }
+        public ICommand LoadDepartmentCommand { get; set; }
         public ICommand HandleProvinceChangedCommand { get; set; }
         public ICommand HandleDistrictChangedCommand { get; set; }
+        public ICommand HandleDepartmentChangedCommand { get; set; }
 
         public EmployeeFormViewModel()
         {
@@ -65,35 +66,40 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
             this.ProvincesSource = new ObservableCollection<AdminisProvince>();
             this.DistrictsSource = new ObservableCollection<AdminisDistrict>();
             this.WardsSource = new ObservableCollection<AdminisWard>();
+            this.DepartmentsSource = new ObservableCollection<Department>();
+            this.PositionsSource = new ObservableCollection<Position>();
 
             // register command
             // command
-            AddNewEmployeeCommand = new AsyncQuadraParamCommand<Button, Button, ProgressBar, Snackbar>((p, v, x, w) =>
+            AddNewEmployeeCommand = new AsyncCommand<Button, ProgressBar, Snackbar>((v, x, w) =>
             {
                 return this._canAdd;
-            },
-            (p, v, x, w) =>
+            }, (v, x, w) =>
             {
                 this._canAdd = false;
                 try
                 {
                     x.Dispatcher.Invoke(new Action(() => { x.Visibility = Visibility.Visible; }));
-                    String data_json = JsonConvert.SerializeObject(new EmployeeInfoModel
+
+                    FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("DepartmentCode", this._selectedDepartment.DepartmentCode)
+                                                          & Builders<BsonDocument>.Filter.Eq("Positions.PositionCode", this._selectedPosition.PositionCode);
+                    UpdateDefinition<BsonDocument> update = Builders<BsonDocument>.Update.AddToSet("EmployeeInfos", new EmployeeInfo
                     {
-                        FullName = this.p_fullName,
-                        Email = this.p_email,
-                        Phone = this.p_phone,
-                        Gender = this.p_gender,
-                        Province = this.p_province,
-                        District = this.p_district,
-                        DetailAddress = this.p_detailAddress,
-                        Department = this.p_department,
-                        Position = this.p_position,
-                        Status = this.p_status
-                    });
+                        PositionCode = this._selectedPosition.PositionCode,
+                        EmployeeCode = this._employeeCode,
+                        FullName = this._fullName,
+                        Email = this._email,
+                        Phone = this._phone,
+                        Gender = this._gender,
+                        ProvinceName = this._selectedAdminisProvince.ProvinceName,
+                        DistrictName = this._selectedAdminisDistrict.DistrictName,
+                        WardName = this._selectedAdminisWard.WardName,
+                        DetailAddress = this._detailAddress
+                    }).Inc("Positions.$.Current", 1);
 
                     MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                    crud.InsertOne(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, data_json);
+                    crud.UpdateOne(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, filter, update);
+
                     w.Dispatcher.Invoke(new Action(() => { w.Message.Content = "Insert successfully!"; }));
                 }
                 catch (MongoWriteException ex)
@@ -104,18 +110,20 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                 this._canAdd = true;
                 x.Dispatcher.Invoke(new Action(() => { x.Visibility = Visibility.Hidden; }));
                 w.Dispatcher.Invoke(new Action(() => { w.IsActive = true; }));
-                return true;
             });
 
             // command
             LoadProvinceCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
             {
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
-                AdminisProvince filter = new AdminisProvince() { administrative_type = 1 };
-                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+                FilterDefinition<AdminisProvince> filter = new AdminisProvince
+                {
+                    AdminisType = 1
+                }.ToBsonDocument();
 
                 MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                List<AdminisProvince> provinces = crud.GetMany<AdminisProvince>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+                List<AdminisProvince> provinces = crud.GetMany<AdminisProvince>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, filter);
 
                 foreach (AdminisProvince province in provinces)
                 {
@@ -126,17 +134,45 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
             });
 
             // command
-            HandleProvinceChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            LoadDepartmentCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
             {
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                FilterDefinition<BsonDocument> filter = new Department
+                {
 
-                App.Current.Dispatcher.Invoke(() => { this.DistrictsSource.Clear(); });
-
-                AdminisDistrict filter = new AdminisDistrict() { administrative_type = 2, province_name = this.p_province };
-                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                }.ToBsonDocument();
+                ProjectionDefinition<BsonDocument> projection = Builders<BsonDocument>.Projection.Include("DepartmentCode").Include("DepartmentName");
 
                 MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                List<AdminisDistrict> districts = crud.GetMany<AdminisDistrict>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+                List<Department> departments = crud.GetMany<Department>(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, filter, projection);
+
+                foreach (Department department in departments)
+                {
+                    App.Current.Dispatcher.Invoke(() => { this.DepartmentsSource.Add(department); });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
+
+            // command
+            HandleProvinceChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                if (this._selectedAdminisProvince == null)
+                {
+                    return;
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                App.Current.Dispatcher.Invoke(() => { this.DistrictsSource.Clear(); });
+
+                FilterDefinition<AdminisDistrict> filter = new AdminisDistrict
+                {
+                    AdminisType = 2,
+                    ProvinceName = this._selectedAdminisProvince.ProvinceName
+                }.ToBsonDocument();
+
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<AdminisDistrict> districts = crud.GetMany<AdminisDistrict>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, filter);
 
                 foreach(AdminisDistrict district in districts)
                 {
@@ -149,18 +185,59 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
             // command
             HandleDistrictChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
             {
+                if (this._selectedAdminisProvince == null || this._selectedAdminisDistrict == null)
+                {
+                    return;
+                }
+
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
                 App.Current.Dispatcher.Invoke(() => { this.WardsSource.Clear(); });
 
-                AdminisWard filter = new AdminisWard() { administrative_type = 3, province_name = this.p_province, district_name = this.p_district };
-                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                FilterDefinition<AdminisWard> filter = new AdminisWard
+                {
+                    AdminisType = 3,
+                    ProvinceName = this._selectedAdminisProvince.ProvinceName,
+                    DistrictName = this._selectedAdminisDistrict.DistrictName,
+                }.ToBsonDocument();
 
                 MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                List<AdminisWard> wards = crud.GetMany<AdminisWard>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+                List<AdminisWard> wards = crud.GetMany<AdminisWard>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, filter);
 
                 foreach(AdminisWard ward in wards)
                 {
                     App.Current.Dispatcher.Invoke(() => { this.WardsSource.Add(ward); });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
+
+            // command
+            HandleDepartmentChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                if (this._selectedDepartment == null)
+                {
+                    return;
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                App.Current.Dispatcher.Invoke(() => { this.PositionsSource.Clear(); });
+
+                FilterDefinition<BsonDocument> filter = new Department
+                {
+                    DepartmentCode = this._selectedDepartment.DepartmentCode,
+                }.ToBsonDocument();
+
+                ProjectionDefinition<BsonDocument> projection = Builders<BsonDocument>.Projection.Include("Positions");
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<Department> departments = crud.GetMany<Department>(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, filter, projection);
+
+                if (departments.Count > 0 && departments[0].Positions != null)
+                {
+                    List<Position> positions = departments[0].Positions;
+                    foreach (Position position in positions)
+                    {
+                        App.Current.Dispatcher.Invoke(() => { this.PositionsSource.Add(position); });
+                    }
                 }
 
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });

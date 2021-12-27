@@ -1,0 +1,163 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "AdminisVN": {
+            "type": "object",
+            "properties": {
+                "AdminisType": {
+                    "type": "integer"
+                },
+                "ProvinceName": {
+                    "type": "string"
+                },
+                "DistrictName": {
+                    "type": "string"
+                },
+                "WardName": {
+                    "type": "string"
+                }
+            }
+        },
+        "AdminisProvince": {
+            "type": "object",
+            "properties": {
+                "AdminisType": {
+                    "$ref": "#/definitions/AdminisVN/properties/AdminisType"
+                },
+                "ProvinceName": {
+                    "$ref": "#/definitions/AdminisVN/properties/ProvinceName"
+                }
+            }
+        },
+        "AdminisDistrict": {
+            "type": "object",
+            "properties": {
+                "AdminisType": {
+                    "$ref": "#/definitions/AdminisVN/properties/AdminisType"
+                },
+                "ProvinceName": {
+                    "$ref": "#/definitions/AdminisVN/properties/ProvinceName"
+                },
+                "DistrictName": {
+                    "$ref": "#/definitions/AdminisVN/properties/DistrictName"
+                }
+            }
+        },
+        "AdminisWard": {
+            "type": "object",
+            "properties": {
+                "AdminisType": {
+                    "$ref": "#/definitions/AdminisVN/properties/AdminisType"
+                },
+                "ProvinceName": {
+                    "$ref": "#/definitions/AdminisVN/properties/ProvinceName"
+                },
+                "DistrictName": {
+                    "$ref": "#/definitions/AdminisVN/properties/DistrictName"
+                },
+                "WardName": {
+                    "$ref": "#/definitions/AdminisVN/properties/WardName"
+                }
+            }
+        },
+        "Position": {
+            "type": "object",
+            "properties":
+            {
+                "PositionCode": {
+                    "type": "string"
+                },
+                "PositionName": {
+                    "type": "string"
+                },
+                "Max": {
+                    "type": "integer"
+                },
+                "Current": {
+                    "type": "integer"
+                }
+            }
+        },
+        "EmployeeInfo": {
+            "type": "object",
+            "properties": {
+                "PositionCode": {
+                    "$ref": "#/definitions/Position/properties/PositionCode"
+                },
+                "EmployeeCode": {
+                    "type": "string"
+                },
+                "FullName": {
+                    "type": "string"
+                },
+                "Email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "Phone": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "integer",
+                    "description": "0. Male, 1. Female, 2. Undefined"
+                },
+                "ProvinceName": {
+                    "$ref": "#/definitions/AdminisVN/properties/ProvinceName"
+                },
+                "DistrictName": {
+                    "$ref": "#/definitions/AdminisVN/properties/DistrictName"
+                },
+                "WardName": {
+                    "$ref": "#/definitions/AdminisVN/properties/WardName"
+                },
+                "DetailAddress": {
+                    "type": "string"
+                }
+            }
+        },
+        "Department": {
+            "type": "object",
+            "properties": {
+                "DepartmentCode": {
+                    "type": "string"
+                },
+                "DepartmentName": {
+                    "type": "string"
+                },
+                "Positions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Position"
+                    }
+                },
+                "EmployeeInfos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EmployeeInfo"
+                    }
+                }
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "AdminisProvince": {
+            "$ref": "#/definitions/AdminisProvince"
+        },
+        "AdminisDistrict": {
+            "$ref": "#/definitions/AdminisDistrict"
+        },
+        "AdminisWard": {
+            "$ref": "#/definitions/AdminisWard"
+        },
+        "Position": {
+            "$ref": "#/definitions/Position"
+        },
+        "EmployeeInfo": {
+            "$ref": "#/definitions/EmployeeInfo"
+        },
+        "Department": {
+            "$ref": "#/definitions/Department"
+        }
+    }
+}

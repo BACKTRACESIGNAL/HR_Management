@@ -108,7 +108,7 @@
                         </StackPanel.Resources>
                         <Button Command="{Binding LoadDashboardCommand}">
                             <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
+                                <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
                                     <Binding ElementName="mainViewName"/>
                                     <Binding ElementName="mainLabelName"/>
                                     <Binding ElementName="lbDashboardName"/>
@@ -121,7 +121,7 @@
                         </Button>
                         <Button Command="{Binding LoadEmployeeCommand}">
                             <Button.CommandParameter>
-                                <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
+                                <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
                                     <Binding ElementName="mainViewName"/>
                                     <Binding ElementName="mainLabelName"/>
                                     <Binding ElementName="lbEmployeeName"/>
