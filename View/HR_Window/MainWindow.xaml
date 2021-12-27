@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:views="clr-namespace:HR_Management.View.HR_UserControl"
         xmlns:userModelViews="clr-namespace:HR_Management.View.HR_UserControl.Models"
+        xmlns:utilityViews="clr-namespace:HR_Management.View.UtilityView"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -25,9 +26,9 @@
         ResizeMode="NoResize">
 
     <!-- Model dialog -->
-    <materialDesign:DialogHost BorderBrush="{DynamicResource MaterialDesignDivider}">
+    <materialDesign:DialogHost BorderBrush="{DynamicResource MaterialDesignDivider}" x:Name="mainFormName">
         <materialDesign:DialogHost.DialogContent>
-            <userModelViews:EmployeeForm/>
+            <utilityViews:Loading/>
         </materialDesign:DialogHost.DialogContent>
 
         <Grid>

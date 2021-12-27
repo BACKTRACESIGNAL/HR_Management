@@ -1,49 +1,59 @@
 ﻿using HR_Management.HR_Libs;
 using HR_Management.Model;
+using HR_Management.View.HR_UserControl.Models;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HR_Management.ViewModel.HR_UserControl
 {
     public class EmployeeViewModel : BaseViewModel
     {
-        private ProgressBar p_progressBar;
-
         public ObservableCollection<EmployeeInfoModel> EmployeeSourceData { get; set; }
 
-        public EmployeeViewModel(ProgressBar progressBar)
+        public ICommand LoadMainFormCommand { get; set; }
+        public ICommand LoadMainListViewName { get; set; }
+
+        public EmployeeViewModel()
         {
-            this.p_progressBar = progressBar;
+            // Initial data
             this.EmployeeSourceData = new ObservableCollection<EmployeeInfoModel>();
-            _ = LoadDataAsync();
-            
-        }
 
-        private async Task LoadDataAsync()
-        {
-            await Task.Run(() => LoadData());
-        }
-
-        private void LoadData()
-        {
-            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Visible; }));
-            MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-            List<EmployeeInfoModel> employees = crud.GetMany<EmployeeInfoModel>(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, "{}");
-
-            foreach(EmployeeInfoModel employee in employees)
+            // Command
+            // Load main form content
+            LoadMainFormCommand = new AsyncCommand<Grid>((p) => { return true; }, (p) =>
             {
-                App.Current.Dispatcher.Invoke(() => {
-                    this.EmployeeSourceData.Add(employee);
-                });
-            }
+                DialogHost dialogHost = Utility.GetMainForm<Grid>(p);
+                if (dialogHost == null)
+                {
+                    return;
+                }
 
-            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Hidden; }));
+                dialogHost.Dispatcher.Invoke(new Action(() => { dialogHost.DialogContent = new EmployeeForm(); }));
+            });
+
+            // Load main list view
+            LoadMainListViewName = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<EmployeeInfoModel> employees = crud.GetMany<EmployeeInfoModel>(MongoDefine.COLLECTION.HR_EMPOYEE_INFO_COLLECTION, "{}");
+
+                foreach (EmployeeInfoModel employee in employees)
+                {
+                    App.Current.Dispatcher.Invoke(() => {
+                        this.EmployeeSourceData.Add(employee);
+                    });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
+
         }
     }
 }

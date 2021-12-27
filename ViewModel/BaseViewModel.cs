@@ -429,6 +429,53 @@ namespace HR_Management.ViewModel
             }
         }
 
+        public class AsyncCommand<T, V> : ICommand
+        {
+            private readonly Func<T, V, bool> _canExecute;
+            private readonly Action<T, V> _execute;
+
+            public AsyncCommand(Func<T, V, bool> canExecute, Action<T, V> execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add => CommandManager.RequerySuggested += value;
+                remove => CommandManager.RequerySuggested -= value;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    object[] values = parameter as object[];
+                    return _canExecute == null ? true : _canExecute((T)values[0], (V)values[1]);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public async void Execute(object parameter)
+            {
+                object[] values = parameter as Object[];
+                await Task.Factory.StartNew(() => { _execute((T)values[0], (V)values[1]); });
+            }
+        }
+
         public class AsyncDoubleParamCommand<T, V> : ICommand
         {
             private readonly Func<T, V, bool> _canExecute;

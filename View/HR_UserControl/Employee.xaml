@@ -16,7 +16,12 @@
              FontFamily="{DynamicResource MaterialDesignFont}"
              
              d:DesignHeight="450" d:DesignWidth="1000">
-    <Grid>
+    <Grid x:Name="mainUserControlName">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:InvokeCommandAction Command="{ Binding LoadMainFormCommand }" CommandParameter="{Binding ElementName=mainUserControlName}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -30,7 +35,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <ProgressBar x:Name="mainProgressBarName" IsIndeterminate="True" />
+            <ProgressBar x:Name="mainProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
         <Grid Grid.Row="1">
@@ -178,8 +183,8 @@
                     </StackPanel.Resources>
                     <Grid>
                         <Button Style="{StaticResource MaterialDesignRaisedButton}" materialDesign:ButtonAssist.CornerRadius="10"
-                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                                    Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
+                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
                             <StackPanel>
                                 <materialDesign:PackIcon Kind="PlusThick"/>
                                 <Label Content="Add"/>
@@ -202,6 +207,11 @@
         
         <Grid Grid.Row="3">
             <ListView ItemsSource="{Binding EmployeeSourceData}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{ Binding LoadMainListViewName }" CommandParameter="{ Binding ElementName=mainProgressBarName}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>

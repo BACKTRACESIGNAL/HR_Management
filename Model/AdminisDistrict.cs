@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 namespace HR_Management.Model
 {
     [BsonIgnoreExtraElements]
-    public class Administrative
+    public class AdminisDistrict
     {
-        public int administrative_type { get; set; }
-        public int province_code { get; set; }
+        public Nullable<int> administrative_type { get; set; }
         public string province_name { get; set; }
-        public int district_code { get; set; }
         public string district_name { get; set; }
-        public int ward_code { get; set; }
-        public string ward_name { get; set; }
+
+        public override string ToString()
+        {
+            return this.district_name;
+        }
     }
 }

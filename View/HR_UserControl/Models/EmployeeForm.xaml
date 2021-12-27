@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <ProgressBar x:Name="ProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
+            <ProgressBar x:Name="formProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
         <Grid Grid.Row="1" Margin="0 10 0 0">
@@ -144,7 +144,14 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select province"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding ProvincesSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedValue="{Binding MProvince, Mode=TwoWay}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleProvinceChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
                                             </StackPanel>
                                         </Grid>
 
@@ -155,7 +162,14 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
-                                                          ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding DistrictsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedValue="{ Binding MDistrict }">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleDistrictChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -168,7 +182,7 @@
                                                 <Label Content="*" Foreground="Red"/>
                                             </StackPanel>
                                             <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select ward"
-                                                      ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                      ItemsSource="{Binding WardsSource}" materialDesign:TextFieldAssist.HasClearButton="True" SelectedValue="{ Binding MWard }"/>
                                         </StackPanel>
                                     </Grid>
 
@@ -180,8 +194,8 @@
                                                 <Label Content="*" Foreground="Red"/>
                                             </StackPanel>
                                             <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top"
-                                             Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
-                                             VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="This is a text area"/>
+                                                     Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="This is a text area"/>
                                         </StackPanel>
                                     </Grid>
 
@@ -199,7 +213,16 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding ProvincesSource}" materialDesign:TextFieldAssist.HasClearButton="True">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Loaded">
+                                                            <i:InvokeCommandAction Command="{ Binding LoadProvinceCommand }" CommandParameter="{ Binding ElementName=formProgressBarName }"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleProvinceChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
                                             </StackPanel>
                                         </Grid>
 
@@ -240,22 +263,22 @@
                                     </Grid>
 
                                     <Grid Margin="0 10 0 0">
-                                        <materialDesign:Snackbar x:Name="SnackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
+                                        <materialDesign:Snackbar x:Name="snackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
                                     </Grid>
 
                                     <!-- Row Final -->
                                     <Grid Margin="0 20 0 0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}"
-                                                Content="Cancel" Margin="5" x:Name="CloseFormName" />
-                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="AddFormButton"
+                                                Content="Cancel" Margin="5" x:Name="btnCloseFormName" />
+                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="btnAddDataName"
                                                 Content="Add" Margin="5" Style="{StaticResource MaterialDesignOutlinedDarkButton}">
                                                 <Button.CommandParameter>
                                                     <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
-                                                        <Binding ElementName="CloseFormName"/>
-                                                        <Binding ElementName="AddFormButton"/>
-                                                        <Binding ElementName="ProgressBarName"/>
-                                                        <Binding ElementName="SnackBarMessageName"/>
+                                                        <Binding ElementName="btnCloseFormName"/>
+                                                        <Binding ElementName="btnAddDataName"/>
+                                                        <Binding ElementName="mainProgressBarName"/>
+                                                        <Binding ElementName="snackBarMessageName"/>
                                                     </MultiBinding>
                                                 </Button.CommandParameter>
                                             </Button>

@@ -20,9 +20,8 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
 {
     public class EmployeeFormViewModel : BaseViewModel, IDataErrorInfo
     {
+        private int _loadCount = 0;
         private bool _canAdd = true;
-
-        private ProgressBar p_progressBar;
 
         private String p_fullName { get; set; }
         private String p_email { get; set; }
@@ -30,14 +29,15 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
         private Boolean p_gender { get; set; }
         private String p_province { get; set; }
         private String p_district { get; set; }
+        private String p_ward { get; set; }
         private String p_detailAddress { get; set; }
         private String p_department { get; set; }
         private String p_position { get; set; }
         private String p_status { get; set; }
 
-        public ObservableCollection<Administrative> ProvincesSource;
-        public ObservableCollection<Administrative> DistrictsSource;
-        public ObservableCollection<Administrative> WardsSource;
+        public ObservableCollection<AdminisProvince> ProvincesSource { get; set; }
+        public ObservableCollection<AdminisDistrict> DistrictsSource { get; set; }
+        public ObservableCollection<AdminisWard> WardsSource { get; set; }
 
         // @TODO: Validate data stuff
         // https://docs.microsoft.com/en-us/previous-versions/windows/apps/743swcz7(v=vs.105)
@@ -48,16 +48,26 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
         public Boolean MGender { get => p_gender; set { p_gender = value; OnPropertyChanged(); } }
         public String MProvince { get => p_province; set { p_province = value; OnPropertyChanged(); } }
         public String MDistrict { get => p_district; set { p_district = value; OnPropertyChanged(); } }
+        public String MWard { get => p_ward; set { p_ward = value; OnPropertyChanged(); } }
         public String MDetailAddress { get => p_detailAddress; set { p_detailAddress = value; OnPropertyChanged(); } }
         public String MDepartment { get => p_department; set { p_department = value; OnPropertyChanged(); } }
         public String MPosition { get => p_position; set { p_position = value; OnPropertyChanged(); } }
         public String MStatus { get => p_status; set { p_status = value; OnPropertyChanged(); } }
 
         public ICommand AddNewEmployeeCommand { get; set; }
+        public ICommand LoadProvinceCommand { get; set; }
+        public ICommand HandleProvinceChangedCommand { get; set; }
+        public ICommand HandleDistrictChangedCommand { get; set; }
 
         public EmployeeFormViewModel()
         {
+            // intitial data
+            this.ProvincesSource = new ObservableCollection<AdminisProvince>();
+            this.DistrictsSource = new ObservableCollection<AdminisDistrict>();
+            this.WardsSource = new ObservableCollection<AdminisWard>();
+
             // register command
+            // command
             AddNewEmployeeCommand = new AsyncQuadraParamCommand<Button, Button, ProgressBar, Snackbar>((p, v, x, w) =>
             {
                 return this._canAdd;
@@ -97,10 +107,64 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                 return true;
             });
 
-            // load data async
-            this.ProvincesSource = new ObservableCollection<Administrative>();
-            this.DistrictsSource = new ObservableCollection<Administrative>();
-            this.WardsSource     = new ObservableCollection<Administrative>();
+            // command
+            LoadProvinceCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                AdminisProvince filter = new AdminisProvince() { administrative_type = 1 };
+                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<AdminisProvince> provinces = crud.GetMany<AdminisProvince>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+
+                foreach (AdminisProvince province in provinces)
+                {
+                    App.Current.Dispatcher.Invoke(() => { this.ProvincesSource.Add(province); });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
+
+            // command
+            HandleProvinceChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+
+                App.Current.Dispatcher.Invoke(() => { this.DistrictsSource.Clear(); });
+
+                AdminisDistrict filter = new AdminisDistrict() { administrative_type = 2, province_name = this.p_province };
+                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<AdminisDistrict> districts = crud.GetMany<AdminisDistrict>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+
+                foreach(AdminisDistrict district in districts)
+                {
+                    App.Current.Dispatcher.Invoke(() => { this.DistrictsSource.Add(district); });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
+
+            // command
+            HandleDistrictChangedCommand = new AsyncCommand<ProgressBar>((p) => { return true; }, (p) =>
+            {
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
+                App.Current.Dispatcher.Invoke(() => { this.WardsSource.Clear(); });
+
+                AdminisWard filter = new AdminisWard() { administrative_type = 3, province_name = this.p_province, district_name = this.p_district };
+                String data_json = JsonConvert.SerializeObject(filter, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+
+                MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
+                List<AdminisWard> wards = crud.GetMany<AdminisWard>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
+
+                foreach(AdminisWard ward in wards)
+                {
+                    App.Current.Dispatcher.Invoke(() => { this.WardsSource.Add(ward); });
+                }
+
+                p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
+            });
         }
 
         // Validate propertyOnChanged
@@ -211,30 +275,6 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
         private bool IsPhoneNumber()
         {
             return Regex.Match(MPhone, @"^(\+[0-9]{9})$").Success;
-        }
-
-        // Load administrative async
-        private async Task LoadAdministrativeAsync()
-        {
-            await Task.Run(() => { this.LoadAdministrative(); });
-        }
-
-        private void LoadAdministrative()
-        {
-            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Visible; }));
-            Administrative filter = new Administrative() { administrative_type = 1 };
-            String data_json = JsonConvert.SerializeObject(filter);
-
-
-            MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-            List<Administrative> provinces = crud.GetMany<Administrative>(MongoDefine.COLLECTION.HR_ADMINISTRATIVE_VN_COLLECTION, data_json);
-
-            foreach(Administrative province in provinces)
-            {
-                App.Current.Dispatcher.Invoke(new Action(() => { this.ProvincesSource.Add(province); }));
-            }
-
-            this.p_progressBar.Dispatcher.Invoke(new Action(() => { this.p_progressBar.Visibility = Visibility.Hidden; }));
         }
     }
 }
