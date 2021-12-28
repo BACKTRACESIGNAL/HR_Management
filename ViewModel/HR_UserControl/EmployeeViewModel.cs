@@ -23,6 +23,8 @@ namespace HR_Management.ViewModel.HR_UserControl
 
         public EmployeeViewModel()
         {
+            PlayYard.Instance().SetEmployeeViewModel(this);
+
             // Initial data
             this.EmployeeSourceData = new ObservableCollection<EmployeeInfo>();
 
@@ -30,7 +32,7 @@ namespace HR_Management.ViewModel.HR_UserControl
             // Load main form content
             LoadMainFormCommand = new AsyncCommand<Grid>((p) => { return true; }, (p) =>
             {
-                DialogHost dialogHost = Utility.GetMainForm<Grid>(p);
+                DialogHost dialogHost = Utility.GetParentDialogHost<Grid>(p);
                 if (dialogHost == null)
                 {
                     return;
@@ -57,6 +59,11 @@ namespace HR_Management.ViewModel.HR_UserControl
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Hidden; });
             });
 
+        }
+
+        ~EmployeeViewModel()
+        {
+            PlayYard.Instance().SetEmployeeViewModel(null);
         }
     }
 }

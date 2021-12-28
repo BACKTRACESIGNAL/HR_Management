@@ -137,6 +137,57 @@
                     }
                 }
             }
+        },
+        "SystemTarget": {
+            "type": "object",
+            "properties": {
+                "SystemTargetCode": {
+                    "type": "integer"
+                },
+                "SystemTargetName": {
+                    "type": "string"
+                }
+            }
+        },
+        "Permission": {
+            "type": "object",
+            "properties": {
+                "PermissionCode": {
+                    "type": "integer"
+                },
+                "PermissionName": {
+                    "type": "string"
+                },
+                "TargetCodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SystemTarget"
+                    }
+                }
+            }
+        },
+        "Account": {
+            "type": "object",
+            "properties": {
+                "AccountName": {
+                    "$ref": "#/definitions/EmployeeInfo/properties/Email"
+                },
+                "Password": {
+                    "type": "string"
+                },
+                "Permissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Permission"
+                    }
+                },
+                "CreatedDateTime": {
+                    "type": "string"
+                },
+                "CreatedBy": {
+                    "$ref": "#/definitions/EmployeeInfo/properties/Email"
+                }
+            }
         }
     },
     "type": "object",
@@ -158,6 +209,9 @@
         },
         "Department": {
             "$ref": "#/definitions/Department"
+        },
+        "Account": {
+            "$ref": "#/definitions/Account"
         }
     }
 }

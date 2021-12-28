@@ -15,6 +15,7 @@
              Background="{DynamicResource MaterialDesignPaper}"
              FontFamily="{DynamicResource MaterialDesignFont}"
              
+             x:Name="employeeViewName"
              d:DesignHeight="450" d:DesignWidth="1000">
     <Grid x:Name="mainUserControlName">
         <i:Interaction.Triggers>
@@ -206,7 +207,7 @@
         </Grid>
         
         <Grid Grid.Row="3">
-            <ListView ItemsSource="{Binding EmployeeSourceData}">
+            <ListView x:Name="mainEmployeeListViewName" ItemsSource="{Binding EmployeeSourceData}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{ Binding LoadEmployeeCommand }" CommandParameter="{ Binding ElementName=mainProgressBarName}"/>
@@ -214,6 +215,7 @@
                 </i:Interaction.Triggers>
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Header="Employee code" DisplayMemberBinding="{Binding EmployeeCode}"/>
                         <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>
                         <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
                         <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}"/>
