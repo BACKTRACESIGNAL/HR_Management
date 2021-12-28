@@ -6,4 +6,5 @@
     <converter:CommandParamsComverter x:Key="CCommandParamsConvert"/>
 
     <windowViewModel:MainViewModel x:Key="DMainViewModel"/>
+    <windowViewModel:LoginViewModel x:Key="DLoginViewModel"/>
 </ResourceDictionary>
