@@ -1,11 +1,11 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using static HR_Management.HR_Libs.MongoDefine;
 
 namespace HR_Management.HR_Libs
 {
@@ -17,18 +17,40 @@ namespace HR_Management.HR_Libs
             this.m_db = db;
         }
 
-        public void InsertOne(String collection, String document)
+        public void InsertOne(COLLECTION collection, BsonDocument document)
         {
-            var doc = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(document);
-            var coll = this.m_db.GetCollection<MongoDB.Bson.BsonDocument>(collection);
-            coll.InsertOne(doc);
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            coll.InsertOne(document);
         }
 
-        public List<T> GetMany<T>(string collection, string filter)
+        public void UpdateOne(COLLECTION collection, FilterDefinition<BsonDocument> filter, UpdateDefinition<BsonDocument> document)
         {
-            var filter_json = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(filter);
-            var coll = this.m_db.GetCollection<T>(collection);
-            return coll.Find(filter_json).ToList();
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            coll.UpdateOne(filter, document);
+        }
+
+        public List<T> GetMany<T>(COLLECTION collection, FilterDefinition<T> filter)
+        {
+            var coll = this.m_db.GetCollection<T>(collection.ToDescriptionString());
+            return coll.Find(filter).ToList<T>();
+        }
+
+        public List<T> GetMany<T>(COLLECTION collection, FilterDefinition<BsonDocument> filter, ProjectionDefinition<BsonDocument> projection)
+        {
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            return coll.Find<BsonDocument>(filter).Project<T>(projection).ToList<T>();
+        }
+
+        public List<T> GetDistinct<T>(COLLECTION collection, String field, FilterDefinition<BsonDocument> filter)
+        {
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            return coll.Distinct<T>(field, filter).ToList<T>();
+        }
+
+        public BulkWriteResult<BsonDocument> BulkWrite(COLLECTION collection, List<WriteModel<BsonDocument>> listWrites)
+        {
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            return coll.BulkWrite(listWrites);
         }
     }
 }

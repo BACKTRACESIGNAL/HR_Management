@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <ProgressBar x:Name="ProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
+            <ProgressBar x:Name="formProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
         <Grid Grid.Row="1" Margin="0 10 0 0">
@@ -68,6 +68,16 @@
                                         <Grid Grid.Column="0" Margin="0 0 15 0">
                                             <StackPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Employee Code"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding MEmployeeCode, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter employee code"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
                                                     <Label Content="Full Name"/>
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
@@ -75,17 +85,6 @@
                                             </StackPanel>
                                         </Grid>
 
-                                        <Grid Grid.Column="1" Margin="15 0 0 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Email"/>
-                                                    <Label Content="*" Foreground="Red"/>
-                                                </StackPanel>
-                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Enter your email address"
-                                                     Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </StackPanel>
-                                        </Grid>
                                     </Grid>
 
                                     <!-- Row Two -->
@@ -98,10 +97,23 @@
                                         <Grid Grid.Column="0" Margin="0 0 15 0">
                                             <StackPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Email"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                     materialDesign:HintAssist.Hint="Enter your email address"
+                                                     Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
                                                     <Label Content="Phone"/>
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
-                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your phone number"/>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your phone number"
+                                                         Text="{Binding MPhone, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                                             </StackPanel>
                                         </Grid>
 
@@ -116,16 +128,10 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <RadioButton IsChecked="True">
-                                                        <RadioButton.Content>
-                                                            <Label Content="Male"/>
-                                                        </RadioButton.Content>
-                                                    </RadioButton>
-                                                    <RadioButton Margin="20 0 0 0">
-                                                        <RadioButton.Content>
-                                                            <Label Content="Female"/>
-                                                        </RadioButton.Content>
-                                                    </RadioButton>
+                                                    <ListBox Style="{StaticResource MaterialDesignChoiceChipPrimaryListBox}" SelectedIndex="{Binding MGender, Converter={StaticResource CGenderConverter}}">
+                                                        <ListBoxItem Content="Male"/>
+                                                        <ListBoxItem Content="Female"/>
+                                                    </ListBox>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Grid>
@@ -144,7 +150,17 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select province"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding ProvincesSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedItem="{Binding SelectedAdminisProvince, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Loaded">
+                                                            <i:InvokeCommandAction Command="{ Binding LoadProvinceCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleProvinceChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
                                             </StackPanel>
                                         </Grid>
 
@@ -155,12 +171,39 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding DistrictsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedItem="{Binding SelectedAdminisDistrict, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleDistrictChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                    
+                                    <!-- Row Five -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Ward"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select ward"
+                                                          ItemsSource="{Binding WardsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedItem="{Binding SelectedAdminisWard, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
 
-                                    <!-- Row Five -->
+                                    <!-- Row Six -->
                                     <Grid Margin="0 10 0 0">
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
@@ -168,12 +211,13 @@
                                                 <Label Content="*" Foreground="Red"/>
                                             </StackPanel>
                                             <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top"
-                                             Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
-                                             VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="This is a text area"/>
+                                                     Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Enter detail address"
+                                                     Text="{Binding MDetailAddress, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </Grid>
 
-                                    <!-- Row Six -->
+                                    <!-- Row Seven -->
                                     <Grid Margin="0 10 0 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
@@ -187,7 +231,17 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding DepartmentsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedItem="{Binding SelectedDepartment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Loaded">
+                                                            <i:InvokeCommandAction Command="{Binding LoadDepartmentCommand}" CommandParameter="{Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{Binding HandleDepartmentChangedCommand}" CommandParameter="{Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
                                             </StackPanel>
                                         </Grid>
 
@@ -198,52 +252,29 @@
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
                                                 <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select position"
-                                                  ItemsSource="{Binding ShortStringList}" materialDesign:TextFieldAssist.HasClearButton="True"/>
+                                                          ItemsSource="{Binding PositionsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          SelectedItem="{Binding SelectedPosition, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
 
-                                    <!-- Row Status -->
-                                    <Grid Margin="0 10 0 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid Grid.Column="0" Margin="0 0 15 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Status"/>
-                                                    <Label Content="*" Foreground="Red"/>
-                                                </StackPanel>
-                                                <ComboBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
-                                                      materialDesign:TextFieldAssist.HasClearButton="True">
-                                                    <ComboBoxItem Content="Active"/>
-                                                </ComboBox>
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <Grid Grid.Column="1">
-                                        </Grid>
-                                    </Grid>
-
-                                    <Grid Margin="0 10 0 0">
-                                        <materialDesign:Snackbar x:Name="SnackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
+                                    <!-- Row SnackBar -->
+                                    <Grid Margin="0 20 0 0">
+                                        <materialDesign:Snackbar x:Name="snackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
                                     </Grid>
 
                                     <!-- Row Final -->
                                     <Grid Margin="0 20 0 0">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                             <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}"
-                                                Content="Cancel" Margin="5" x:Name="CloseFormName" />
-                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="AddFormButton"
+                                                    Content="Cancel" Margin="5"/>
+                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="btnAddDataName"
                                                 Content="Add" Margin="5" Style="{StaticResource MaterialDesignOutlinedDarkButton}">
                                                 <Button.CommandParameter>
-                                                    <MultiBinding Converter="{StaticResource CCommandParamsConvert}">
-                                                        <Binding ElementName="CloseFormName"/>
-                                                        <Binding ElementName="AddFormButton"/>
-                                                        <Binding ElementName="ProgressBarName"/>
-                                                        <Binding ElementName="SnackBarMessageName"/>
+                                                    <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
+                                                        <Binding ElementName="btnAddDataName"/>
+                                                        <Binding ElementName="formProgressBarName"/>
+                                                        <Binding ElementName="snackBarMessageName"/>
                                                     </MultiBinding>
                                                 </Button.CommandParameter>
                                             </Button>
