@@ -68,6 +68,16 @@
                                         <Grid Grid.Column="0" Margin="0 0 15 0">
                                             <StackPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Employee Code"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding MEmployeeCode, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter employee code"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
                                                     <Label Content="Full Name"/>
                                                     <Label Content="*" Foreground="Red"/>
                                                 </StackPanel>
@@ -75,17 +85,6 @@
                                             </StackPanel>
                                         </Grid>
 
-                                        <Grid Grid.Column="1" Margin="15 0 0 0">
-                                            <StackPanel Orientation="Vertical">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Label Content="Email"/>
-                                                    <Label Content="*" Foreground="Red"/>
-                                                </StackPanel>
-                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                                     materialDesign:HintAssist.Hint="Enter your email address"
-                                                     Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-                                            </StackPanel>
-                                        </Grid>
                                     </Grid>
 
                                     <!-- Row Two -->
@@ -96,6 +95,18 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Email"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                     materialDesign:HintAssist.Hint="Enter your email address"
+                                                     Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
                                             <StackPanel Orientation="Vertical">
                                                 <StackPanel Orientation="Horizontal">
                                                     <Label Content="Phone"/>

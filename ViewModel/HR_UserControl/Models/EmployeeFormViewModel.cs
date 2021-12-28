@@ -163,7 +163,11 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                 }
 
                 p.Dispatcher.Invoke(() => { p.Visibility = Visibility.Visible; });
-                App.Current.Dispatcher.Invoke(() => { this.DistrictsSource.Clear(); });
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    this.DistrictsSource.Clear();
+                    this.WardsSource.Clear();
+                });
 
                 FilterDefinition<AdminisDistrict> filter = new AdminisDistrict
                 {
