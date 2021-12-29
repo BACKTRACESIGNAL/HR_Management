@@ -5,8 +5,10 @@ namespace HR_Management.Model
 {
 
     [BsonIgnoreExtraElements]
-    public partial class HrModel
+    public partial class BackHrModel
     {
+        [BsonIgnoreIfNull]
+        public Account Account { get; set; }
         [BsonIgnoreIfNull]
         public AdminisDistrict AdminisDistrict { get; set; }
         [BsonIgnoreIfNull]
@@ -22,6 +24,40 @@ namespace HR_Management.Model
     }
 
     [BsonIgnoreExtraElements]
+    public partial class Account
+    {
+        [BsonIgnoreIfNull]
+        public string AccountName { get; set; }
+        [BsonIgnoreIfNull]
+        public string CreatedBy { get; set; }
+        [BsonIgnoreIfNull]
+        public string CreatedDateTime { get; set; }
+        [BsonIgnoreIfNull]
+        public string Password { get; set; }
+        [BsonIgnoreIfNull]
+        public List<Permission> Permissions { get; set; }
+        public override string ToString()
+        {
+            return this.AccountName;
+        }
+    }
+
+    [BsonIgnoreExtraElements]
+    public partial class Permission
+    {
+        [BsonIgnoreIfNull]
+        public long? PermissionCode { get; set; }
+        [BsonIgnoreIfNull]
+        public string PermissionName { get; set; }
+        [BsonIgnoreIfNull]
+        public List<long> TargetCodes { get; set; }
+        public override string ToString()
+        {
+            return this.PermissionName;
+        }
+    }
+
+    [BsonIgnoreExtraElements]
     public partial class AdminisDistrict
     {
         [BsonIgnoreIfNull]
@@ -30,7 +66,6 @@ namespace HR_Management.Model
         public string DistrictName { get; set; }
         [BsonIgnoreIfNull]
         public string ProvinceName { get; set; }
-
         public override string ToString()
         {
             return this.DistrictName;
@@ -44,7 +79,6 @@ namespace HR_Management.Model
         public long? AdminisType { get; set; }
         [BsonIgnoreIfNull]
         public string ProvinceName { get; set; }
-
         public override string ToString()
         {
             return this.ProvinceName;
@@ -62,7 +96,6 @@ namespace HR_Management.Model
         public string ProvinceName { get; set; }
         [BsonIgnoreIfNull]
         public string WardName { get; set; }
-
         public override string ToString()
         {
             return this.WardName;
@@ -80,7 +113,6 @@ namespace HR_Management.Model
         public List<EmployeeInfo> EmployeeInfos { get; set; }
         [BsonIgnoreIfNull]
         public List<Position> Positions { get; set; }
-
         public override string ToString()
         {
             return this.DepartmentName;
@@ -115,7 +147,6 @@ namespace HR_Management.Model
         public string ProvinceName { get; set; }
         [BsonIgnoreIfNull]
         public string WardName { get; set; }
-
         public override string ToString()
         {
             return this.FullName;
@@ -133,7 +164,6 @@ namespace HR_Management.Model
         public string PositionCode { get; set; }
         [BsonIgnoreIfNull]
         public string PositionName { get; set; }
-
         public override string ToString()
         {
             return this.PositionName;

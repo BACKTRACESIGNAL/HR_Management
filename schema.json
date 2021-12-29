@@ -161,7 +161,7 @@
                 "TargetCodes": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/SystemTarget"
+                        "$ref": "#/definitions/SystemTarget/properties/SystemTargetCode"
                     }
                 }
             }

@@ -46,5 +46,11 @@ namespace HR_Management.HR_Libs
             var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
             return coll.Distinct<T>(field, filter).ToList<T>();
         }
+
+        public BulkWriteResult<BsonDocument> BulkWrite(COLLECTION collection, List<WriteModel<BsonDocument>> listWrites)
+        {
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            return coll.BulkWrite(listWrites);
+        }
     }
 }
