@@ -108,26 +108,78 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                         {
                             x.Dispatcher.Invoke(new Action(() => { x.Visibility = Visibility.Visible; }));
 
-                            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("DepartmentCode", this._selectedDepartment.DepartmentCode)
-                                                                  & Builders<BsonDocument>.Filter.Eq("Positions.PositionCode", this._selectedPosition.PositionCode);
-
                             EmployeeInfo employeeInfo = new EmployeeInfo
                             {
                                 PositionCode = this._selectedPosition.PositionCode,
+                                Position = new Position
+                                {
+                                    PositionCode = this._selectedPosition.PositionCode,
+                                    PositionName = this._selectedPosition.PositionName,
+                                },
                                 EmployeeCode = this._employeeCode,
                                 FullName = this._fullName,
                                 Email = this._email,
                                 Phone = this._phone,
                                 Gender = this._gender,
                                 ProvinceName = this._selectedAdminisProvince.ProvinceName,
+                                Province = new AdminisProvince
+                                {
+                                    ProvinceName = this._selectedAdminisProvince.ProvinceName,
+                                    AdminisType = this._selectedAdminisProvince.AdminisType
+                                },
                                 DistrictName = this._selectedAdminisDistrict.DistrictName,
+                                District = new AdminisDistrict
+                                {
+                                    AdminisType = this._selectedAdminisDistrict.AdminisType,
+                                    ProvinceName = this._selectedAdminisDistrict.ProvinceName,
+                                    DistrictName = this._selectedAdminisDistrict.DistrictName
+                                },
                                 WardName = this._selectedAdminisWard.WardName,
-                                DetailAddress = this._detailAddress
+                                Ward = new AdminisWard
+                                {
+                                    AdminisType = this._selectedAdminisWard.AdminisType,
+                                    ProvinceName = this._selectedAdminisWard.ProvinceName,
+                                    DistrictName = this._selectedAdminisWard.DistrictName,
+                                    WardName = this._selectedAdminisWard.WardName
+                                },
+                                DetailAddress = this._detailAddress,
+                                Department = new Department
+                                {
+                                    DepartmentCode = this._selectedDepartment.DepartmentCode,
+                                    DepartmentName = this._selectedDepartment.DepartmentName,
+                                }
                             };
-                            UpdateDefinition<BsonDocument> update = Builders<BsonDocument>.Update.AddToSet("EmployeeInfos", employeeInfo).Inc("Positions.$.Current", 1);
+
+                            Account account = new Account
+                            {
+                                AccountName = this._email,
+                                Password = PasswordHasher.CreateHash("hrmanagement@initializer"),
+                                GroupPermissions = new List<GroupAlias> { new GroupAlias
+                                {
+                                    GroupCode = Utility.GLOBAL_VARIABLE.DEFAULT_GROUP_CODE,
+                                    GroupPartionCurrent = Utility.GLOBAL_VARIABLE.GROUP_PARTION_MEMBER
+                                } },
+
+                                CreatedDateTime = DateTime.Now,
+                                //CreatedBy = Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.AccountName
+                            };
+
+
+                            FilterDefinition<BsonDocument> filterEmployee = Builders<BsonDocument>.Filter.Eq("DepartmentCode", this._selectedDepartment.DepartmentCode)
+                                                                  & Builders<BsonDocument>.Filter.Eq("Positions.PositionCode", this._selectedPosition.PositionCode);
+                            FilterDefinition<BsonDocument> filterGroupPermission = new GroupPermission
+                            {
+                                GroupCode = Utility.GLOBAL_VARIABLE.DEFAULT_GROUP_CODE
+                            }.ToBsonDocument();
+
+                            UpdateDefinition<BsonDocument> updateGroupPermission = Builders<BsonDocument>.Update.AddToSet("GroupPartionMember.Members", this._email);
+                            UpdateDefinition<BsonDocument> updateEmployee = Builders<BsonDocument>.Update.AddToSet("EmployeeInfos", employeeInfo).Inc("Positions.$.Current", 1);
+                            BsonDocument insertAccount = account.ToBsonDocument();
 
                             MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                            crud.UpdateOne(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, filter, update);
+                            crud.UpdateOne(MongoDefine.COLLECTION.HR_DEPARTMENT_COLLECTION, filterEmployee, updateEmployee);
+                            crud.InsertOne(MongoDefine.COLLECTION.HR_ACCOUNT_COLLECTION, insertAccount);
+                            crud.UpdateOne(MongoDefine.COLLECTION.HR_GROUP_PERMISSION_COLLECTION, filterGroupPermission, updateGroupPermission);
 
                             App.Current.Dispatcher.Invoke(() => { PlayYard.Instance().GetEmployeeViewModel().EmployeeSourceData.Insert(0, employeeInfo); });
 

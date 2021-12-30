@@ -9,12 +9,25 @@ namespace HR_Management.HR_Libs
 {
     public class PlayYard
     {
+        public enum PAGE
+        {
+            DASHBOARD,
+            EMPLOYEE,
+            EMPLOYEE_DETAIL,
+            REQUEST,
+            RECRUITMENT,
+            ONBOARDING,
+            OFFBOARDING,
+            UNSUPPORTED,
+        };
+        private static readonly object _lock = new object();
         private PlayYard()
         {
 
         }
 
         private EmployeeViewModel _employeeViewModel;
+        public PAGE SelectedPageGlobal { get; set; } = PAGE.DASHBOARD;
 
 
         private static PlayYard _instance;
@@ -23,7 +36,14 @@ namespace HR_Management.HR_Libs
         {
             if (_instance == null)
             {
-                _instance = new PlayYard();
+                lock(_lock)
+                {
+
+                    if (_instance == null)
+                    {
+                        _instance = new PlayYard();
+                    }
+                }
             }
 
             return _instance;
@@ -38,6 +58,5 @@ namespace HR_Management.HR_Libs
         {
             return this._employeeViewModel;
         }
-
     }
 }

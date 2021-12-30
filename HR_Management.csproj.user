@@ -13,6 +13,9 @@
     <Compile Update="View\HR_UserControl\Employee.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\HR_UserControl\EmployeeDetail.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\HR_UserControl\Models\EmployeeForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -43,6 +46,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_UserControl\Employee.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_UserControl\EmployeeDetail.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_UserControl\Models\EmployeeForm.xaml">

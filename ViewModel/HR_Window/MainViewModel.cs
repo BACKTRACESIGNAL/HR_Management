@@ -1,4 +1,5 @@
-﻿using HR_Management.View.HR_UserControl;
+﻿using HR_Management.HR_Libs;
+using HR_Management.View.HR_UserControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,6 @@ namespace HR_Management.ViewModel.HR_Window
 {
     public class MainViewModel : BaseViewModel
     {
-        private enum PAGE
-        {
-            DASHBOARD,
-            EMPLOYEE,
-            REQUEST,
-            RECRUITMENT,
-            ONBOARDING,
-            OFFBOARDING,
-            UNSUPPORTED,
-        };
-
-        private PAGE selectedPage { get; set; }
-
         private Storyboard ShowUserControlAnimate(UserControl userControl, Grid container)
         {
             userControl.RenderTransform = new TranslateTransform();
@@ -64,19 +52,19 @@ namespace HR_Management.ViewModel.HR_Window
             bool ok = startUp.Load();
 
             // Assign Commands
-            this.selectedPage = PAGE.DASHBOARD;
+            PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.DASHBOARD;
             LoadDashboardCommand = new RelayCommand<Grid, Label, Label>((p, t, s) => { return true;  }, (p, t, s) =>
             {
                 if (p == null || t == null || s == null)
                 {
                     // TODO: Handle if params is null
                 }
-                else if (this.selectedPage != PAGE.DASHBOARD)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.DASHBOARD)
                 {
                     t.Content = s.Content;
                     UserControl showView = new Dashboard();
                     this.ShowUserControlAnimate(showView, p).Begin();
-                    this.selectedPage = PAGE.DASHBOARD;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.DASHBOARD;
                 }
             });
 
@@ -87,12 +75,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.EMPLOYEE)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.EMPLOYEE)
                 {
                     t.Content= s.Content;
                     UserControl showView = new Employee();
                     this.ShowUserControlAnimate(showView, p).Begin();
-                    this.selectedPage = PAGE.EMPLOYEE;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.EMPLOYEE;
                 }
             });
 
@@ -103,12 +91,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.REQUEST)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.REQUEST)
                 {
                     Request showView = new Request();
                     p.Children.Clear();
                     p.Children.Add(showView);
-                    this.selectedPage = PAGE.REQUEST;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.REQUEST;
                 }
             });
 
@@ -119,12 +107,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.RECRUITMENT)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.RECRUITMENT)
                 {
                     Recruitment showView = new Recruitment();
                     p.Children.Clear();
                     p.Children.Add(showView);
-                    this.selectedPage = PAGE.RECRUITMENT;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.RECRUITMENT;
                 }
             });
 
@@ -135,12 +123,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.ONBOARDING)
+                else if ( PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.RECRUITMENT)
                 {
                     Onboarding showView = new Onboarding();
                     p.Children.Clear();
                     p.Children.Add(showView);
-                    this.selectedPage = PAGE.ONBOARDING;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.RECRUITMENT;
                 }
             });
 
@@ -151,12 +139,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.OFFBOARDING)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.OFFBOARDING)
                 {
                     Offboarding showView = new Offboarding();
                     p.Children.Clear();
                     p.Children.Add(showView);
-                    this.selectedPage = PAGE.OFFBOARDING;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.OFFBOARDING;
                 }
             });
 
@@ -167,12 +155,12 @@ namespace HR_Management.ViewModel.HR_Window
                     // TODO: Handle if params is null
                     return;
                 }
-                else if (this.selectedPage != PAGE.UNSUPPORTED)
+                else if (PlayYard.Instance().SelectedPageGlobal != PlayYard.PAGE.UNSUPPORTED)
                 {
                     Unsupported showView = new Unsupported();
                     p.Children.Clear();
                     p.Children.Add(showView);
-                    this.selectedPage = PAGE.UNSUPPORTED;
+                    PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.UNSUPPORTED;
                 }
             });
         }

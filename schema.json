@@ -84,6 +84,9 @@
                 "PositionCode": {
                     "$ref": "#/definitions/Position/properties/PositionCode"
                 },
+                "Position": {
+                    "$ref": "#/definitions/Position"
+                },
                 "EmployeeCode": {
                     "type": "string"
                 },
@@ -104,14 +107,29 @@
                 "ProvinceName": {
                     "$ref": "#/definitions/AdminisVN/properties/ProvinceName"
                 },
+                "Province": {
+                    "$ref": "#/definitions/AdminisProvince"
+                },
                 "DistrictName": {
                     "$ref": "#/definitions/AdminisVN/properties/DistrictName"
+                },
+                "District": {
+                    "$ref": "#/definitions/AdminisDistrict"
                 },
                 "WardName": {
                     "$ref": "#/definitions/AdminisVN/properties/WardName"
                 },
+                "Ward": {
+                    "$ref": "#/definitions/AdminisWard"
+                },
                 "DetailAddress": {
                     "type": "string"
+                },
+                "AvatarPath": {
+                    "type": "string"
+                },
+                "Department": {
+                    "$ref": "#/definitions/Department"
                 }
             }
         },
@@ -138,13 +156,13 @@
                 }
             }
         },
-        "SystemTarget": {
+        "SystemObject": {
             "type": "object",
             "properties": {
-                "SystemTargetCode": {
-                    "type": "integer"
+                "SystemObjectCode": {
+                    "type": "string"
                 },
-                "SystemTargetName": {
+                "SystemObjectName": {
                     "type": "string"
                 }
             }
@@ -157,12 +175,61 @@
                 },
                 "PermissionName": {
                     "type": "string"
-                },
-                "TargetCodes": {
+                }
+            }
+        },
+        "GroupPartion": {
+            "type": "object",
+            "properties": {
+                "Members": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/SystemTarget/properties/SystemTargetCode"
+                        "$ref": "#/definitions/EmployeeInfo/properties/Email"
                     }
+                },
+                "Permissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Permission/properties/PermissionCode"
+                    }
+                },
+                "SystemObjects": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SystemObject/properties/SystemObjectCode"
+                    }
+                }
+            }
+        },
+        "GroupPermission": {
+            "type": "object",
+            "properties": {
+                "GroupCode": {
+                    "type": "string"
+                },
+                "GroupName": {
+                    "type": "string"
+                },
+                "GroupPartionOwner": {
+                    "$ref": "#/definitions/GroupPartion"
+                },
+                "GroupPartionViceOwner": {
+                    "$ref": "#/definitions/GroupPartion"
+                },
+                "GroupPartionMember": {
+                    "$ref": "#/definitions/GroupPartion"
+                }
+            }
+        },
+        "GroupAlias": {
+            "type": "object",
+            "properties": {
+                "GroupCode": {
+                    "$ref": "#/definitions/GroupPermission/properties/GroupCode"
+                },
+                "GroupPartionCurrent": {
+                    "type": "integer",
+                    "description": "0. Undefined, 1. Partion owner, 2. Partion vice owner, 3. Partion member"
                 }
             }
         },
@@ -179,6 +246,12 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Permission"
+                    }
+                },
+                "GroupPermissions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GroupAlias"
                     }
                 },
                 "CreatedDateTime": {
@@ -209,6 +282,9 @@
         },
         "Department": {
             "$ref": "#/definitions/Department"
+        },
+        "GroupPermission": {
+            "$ref": "#/definitions/GroupPermission"
         },
         "Account": {
             "$ref": "#/definitions/Account"

@@ -26,9 +26,14 @@ namespace HR_Management.HR_Libs
             HR_DEPARTMENT_COLLECTION,
             [Description("HR_POSITION")]
             HR_POSITION_COLLECTION,
+            [Description("HR_ACCOUNT")]
+            HR_ACCOUNT_COLLECTION,
+            [Description("HR_GROUP_PERMISSION")]
+            HR_GROUP_PERMISSION_COLLECTION
         }
 
     }
+
     public static class EnumExtensions
     {
         public static string ToDescriptionString(this DATABASE val)
