@@ -39,6 +39,10 @@ namespace HR_Management.ViewModel.HR_UserControl
         private String _createdDateTime { get; set; }
         private String _createdBy { get; set; }
 
+        private List<GroupAlias> _groupPermissions { get; set; }
+
+        private Visibility _visibleEditData { get; set; }
+
         public String MEmployeeCode { get => this._employeeCode; set { this._employeeCode = value; OnPropertyChanged(); } }
         public String MFullName { get => this._fullName; set { this._fullName = value; OnPropertyChanged(); } }
         public String MEmail { get => this._email; set { this._email = value; OnPropertyChanged(); } }
@@ -56,6 +60,8 @@ namespace HR_Management.ViewModel.HR_UserControl
         public String MSecretePhone { get => this._secretePhone; set { this._secretePhone = value; OnPropertyChanged(); } }
         public String MCreatedDateTime { get => this._createdDateTime; set { this._createdDateTime = value; OnPropertyChanged(); } }
         public String MCreatedBy { get => this._createdBy; set { this._createdBy = value; OnPropertyChanged(); } }
+
+        public Visibility MVisibleEditData { get => this._visibleEditData; set { this._visibleEditData = value; OnPropertyChanged(); } }
 
         public ICommand LoadFormInitializeCommand { get; set; }
 
@@ -76,7 +82,90 @@ namespace HR_Management.ViewModel.HR_UserControl
             this._department = employeeInfo.Department.DepartmentName;
             this._position = employeeInfo.Position.PositionName;
 
+            // Load Data
             LoadAccount();
+
+            // Permission
+            // PERMISSION - 0: WRITE PERMISSION;
+            // SYSTEM OBJECTS:
+            //                  0 - PEER TO PEER DATA INFO
+            //                  1 - GROUP MEMBERS DATA INFO
+            //                  2 - GROUP VICE MEMBER DATA INFO
+            //                  3 - GROUP OWNER DATA INFO
+
+            bool canVisible = false;
+            GroupAlias matchGroupAlias = null;
+            foreach(var itemcurrent in this._groupPermissions)
+            {
+                foreach (var itemUtility in Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.GroupPermissions)
+                {
+                    if (itemcurrent.GroupCode == itemUtility.GroupCode)
+                    {
+                        if (itemcurrent.GroupPartionCurrent >= itemUtility.GroupPartionCurrent)
+                        {
+                            canVisible = true;
+                            matchGroupAlias = itemUtility;
+                            break;
+                        }
+                    }
+                }
+
+                if (canVisible == true)
+                {
+                    break;
+                }
+            }
+
+            bool finalCheck = false;
+            if (canVisible)
+            {
+                foreach (var itemUtility in Utility.GLOBAL_VARIABLE.LIST_GROUP_PARTITION_CACHED)
+                {
+                    if (itemUtility.GroupCode == matchGroupAlias.GroupCode)
+                    {
+                        switch (matchGroupAlias.GroupPartionCurrent)
+                        {
+                            case 1:
+                                if (itemUtility.GroupPartionOwner.Permissions.Contains(0) == true)
+                                {
+                                    finalCheck = true;
+                                }
+                                break;
+                            case 2:
+                                if (itemUtility.GroupPartionViceOwner.Permissions.Contains(0) == true)
+                                {
+                                    finalCheck = true;
+                                }
+                                break;
+                            case 3:
+                                if (itemUtility.GroupPartionMember.Permissions.Contains(0) == true)
+                                {
+                                    finalCheck = true;
+                                }
+                                break;
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (finalCheck == true)
+            {
+                this._visibleEditData = Visibility.Visible;
+            }
+            else
+            {
+                this._visibleEditData = Visibility.Hidden;
+            }
+
+            //if (Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED != null)
+            //{
+            //    this._visibleEditData = Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.AccountName == this._accountName ? Visibility.Visible : Visibility.Hidden;
+            //}
+            //else
+            //{
+            //    this._visibleEditData = Visibility.Visible;
+            //}
 
             LoadFormInitializeCommand = new RelayCommand<UserControl>((p) => { return true; }, (p) =>
             {
@@ -85,7 +174,6 @@ namespace HR_Management.ViewModel.HR_UserControl
                     DialogHost dialogHost = Utility.GetParentDialogHost<UserControl>(p);
                     dialogHost.DialogContent = new EmployeeEditForm(this._employeeInfo);
                 });
-
             });
         }
 
@@ -96,7 +184,7 @@ namespace HR_Management.ViewModel.HR_UserControl
                 { "AccountName", this._email },
             };
 
-            ProjectionDefinition<BsonDocument> projection = Builders<BsonDocument>.Projection.Include("AccountName").Include("CreatedDateTime").Include("CreatedBy").Include("SecretePhone");
+            ProjectionDefinition<BsonDocument> projection = Builders<BsonDocument>.Projection.Include("AccountName").Include("CreatedDateTime").Include("CreatedBy").Include("SecretePhone").Include("GroupPermissions");
 
             MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
             List<Account> accounts = crud.GetMany<Account>(MongoDefine.COLLECTION.HR_ACCOUNT_COLLECTION, filter, projection);
@@ -107,6 +195,7 @@ namespace HR_Management.ViewModel.HR_UserControl
                 this._secretePhone = accounts[0].SecretePhone;
                 this._createdDateTime = accounts[0].CreatedDateTime.ToString();
                 this._createdBy = accounts[0].CreatedBy;
+                this._groupPermissions = accounts[0].GroupPermissions;
             }
         }
     }

@@ -78,6 +78,8 @@ namespace HR_Management.HR_Libs
 
             // saving account after login
             public static Account ACCOUNT_CACHED { get; set; }
+            // permission
+            public static List<GroupPermission> LIST_GROUP_PARTITION_CACHED { get; set; } = new List<GroupPermission>();
         }
 
     }

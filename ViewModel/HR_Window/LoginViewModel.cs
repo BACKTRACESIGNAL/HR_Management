@@ -35,13 +35,13 @@ namespace HR_Management.ViewModel.HR_Window
 
             HandleLoginCommand = new AsyncCommand<Window>((p) => { return this._canLogin; }, (p) =>
             {
-                FilterDefinition<Account> filter = new BsonDocument
+                FilterDefinition<Account> filterAccount = new BsonDocument
                 {
                     {"AccountName", this._accountName},
                 };
 
                 MongoCRUD crud = MongodbRequest.Instance().StartDbSession(MongoDefine.DATABASE.HR_DATA_DB);
-                List<Account> accounts = crud.GetMany<Account>(MongoDefine.COLLECTION.HR_ACCOUNT_COLLECTION, filter);
+                List<Account> accounts = crud.GetMany<Account>(MongoDefine.COLLECTION.HR_ACCOUNT_COLLECTION, filterAccount);
                 if (accounts.Count != 1)
                 {
                     MessageBox.Show("Wrong account!");
@@ -59,6 +59,37 @@ namespace HR_Management.ViewModel.HR_Window
                 this.LoginSuccess = true;
 
                 Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED = accounts[0];
+                //
+                foreach (GroupAlias groupAlias in Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.GroupPermissions)
+                {
+                    FilterDefinition<BsonDocument> filterGroupPermission = Builders<BsonDocument>.Filter.Eq("GroupCode", groupAlias.GroupCode);
+                    ProjectionDefinition<BsonDocument> projectionGroupPermission;
+
+                    //MessageBox.Show(groupAlias.GroupCode + " 00 " + groupAlias.GroupPartionCurrent);
+
+                    switch (groupAlias.GroupPartionCurrent)
+                    {
+                        case 1: // Group Partion Owner
+                            projectionGroupPermission = Builders<BsonDocument>.Projection.Include("GroupPartionOwner.Permissions").Include("GroupCode");
+                            break;
+                        case 2: // Group Partition Vice Owner
+                            projectionGroupPermission = Builders<BsonDocument>.Projection.Include("GroupPartionViceOwner.Permissions").Include("GroupCode");
+                            break;
+                        case 3: // Group Partition Member
+                            projectionGroupPermission = Builders<BsonDocument>.Projection.Include("GroupPartionMember.Permissions").Include("GroupCode");
+                            break;
+                        default:
+                            return;
+                    }
+                    
+                    // @TODO: Update query into one query get data - Using GET DISTINCT
+                    List<GroupPermission> groupPermissions = crud.GetMany<GroupPermission>(MongoDefine.COLLECTION.HR_GROUP_PERMISSION_COLLECTION, filterGroupPermission, projectionGroupPermission);
+                    if (groupPermissions.Count == 1)
+                    {
+                        Utility.GLOBAL_VARIABLE.LIST_GROUP_PARTITION_CACHED.Add(groupPermissions[0]);
+                    }
+                }
+
                 p.Dispatcher.Invoke(() => { p.Close(); });
             });
         }

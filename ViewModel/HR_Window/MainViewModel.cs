@@ -39,7 +39,7 @@ namespace HR_Management.ViewModel.HR_Window
             // -------------------------------------------------------------------------- //
 
             // Login
-            //_ = this.HandleLogin();
+            _ = this.HandleLogin();
 
 
             // Assign Commands
