@@ -27,6 +27,11 @@
 
     <!-- Model dialog -->
     <materialDesign:DialogHost BorderBrush="{DynamicResource MaterialDesignDivider}" x:Name="mainFormName">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="DialogOpened">
+                <i:InvokeCommandAction Command="{Binding HandleDialogOpenedCommand}" CommandParameter="{Binding ElementName=lbDashboardName}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <materialDesign:DialogHost.DialogContent>
             <utilityViews:Loading/>
         </materialDesign:DialogHost.DialogContent>

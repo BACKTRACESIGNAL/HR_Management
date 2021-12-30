@@ -259,6 +259,9 @@
                 },
                 "CreatedBy": {
                     "$ref": "#/definitions/EmployeeInfo/properties/Email"
+                },
+                "SecretePhone": {
+                    "$ref": "#/definitions/EmployeeInfo/properties/Phone"
                 }
             }
         }

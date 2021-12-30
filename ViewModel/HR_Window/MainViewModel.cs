@@ -36,6 +36,7 @@ namespace HR_Management.ViewModel.HR_Window
             return sb;
         }
 
+        public ICommand HandleDialogOpenedCommand { get; set; }
         public ICommand LoadDashboardCommand { get; set; }
         public ICommand LoadEmployeeCommand { get; set; }
         public ICommand LoadRequestCommand { get; set; }
@@ -53,6 +54,12 @@ namespace HR_Management.ViewModel.HR_Window
 
             // Assign Commands
             PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.DASHBOARD;
+
+            HandleDialogOpenedCommand = new RelayCommand<Label>((p) => { return true; }, (p) =>
+            {
+                PlayYard.Instance().openingStrategy.DoAlgorithm();
+            });
+
             LoadDashboardCommand = new RelayCommand<Grid, Label, Label>((p, t, s) => { return true;  }, (p, t, s) =>
             {
                 if (p == null || t == null || s == null)

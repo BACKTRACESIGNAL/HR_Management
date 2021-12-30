@@ -161,6 +161,7 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                                 } },
 
                                 CreatedDateTime = DateTime.Now,
+                                CreatedBy = this._phone,
                                 //CreatedBy = Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.AccountName
                             };
 

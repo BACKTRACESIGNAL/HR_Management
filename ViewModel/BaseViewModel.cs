@@ -19,6 +19,52 @@ namespace HR_Management.ViewModel
             PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
+        public class RelayCommand : ICommand
+        {
+            protected readonly Func<bool> _canExecute;
+            protected readonly Action _execute;
+
+            public RelayCommand(Func<bool> canExecute, Action execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    return _canExecute == null ? true : _canExecute();
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public void Execute(object parameter)
+            {
+                _execute();
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+
         public class RelayCommand<T> : ICommand
         {
             protected readonly Predicate<T> _canExecute;
@@ -340,6 +386,51 @@ namespace HR_Management.ViewModel
             {
                 add { CommandManager.RequerySuggested += value; }
                 remove { CommandManager.RequerySuggested -= value; }
+            }
+        }
+
+        public class AsyncCommand : ICommand
+        {
+            private readonly Func<bool> _canExecute;
+            private readonly Action _execute;
+
+            public AsyncCommand(Func<bool> canExecute, Action execute)
+            {
+                if (execute == null)
+                {
+                    throw new ArgumentNullException("execute");
+                }
+
+                _canExecute = canExecute;
+                _execute = execute;
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add => CommandManager.RequerySuggested += value;
+                remove => CommandManager.RequerySuggested -= value;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                if (parameter == null)
+                {
+                    return false;
+                }
+
+                try
+                {
+                    return _canExecute == null ? true : _canExecute();
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            public async void Execute(object parameter)
+            {
+                await Task.Factory.StartNew(() => { _execute(); });
             }
         }
 

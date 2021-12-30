@@ -1,0 +1,315 @@
+﻿<UserControl x:Class="HR_Management.View.HR_UserControl.Models.EmployeeEditForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HR_Management.View.HR_UserControl.Models"
+             mc:Ignorable="d"
+
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+
+             d:DesignHeight="1200" d:DesignWidth="1100">
+    <Grid Width="1000" Margin="15">
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="Segoe UI"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <ProgressBar x:Name="formProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 10 0 0">
+            <Border BorderBrush="LightCoral" BorderThickness="1">
+                <ScrollViewer HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Label Content="Update Employee" FontWeight="SemiBold" FontSize="30"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Margin" Value="0 5"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    <!-- Row one -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Employee Code"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding MEmployeeCode, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter employee code"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Full Name"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox Text="{Binding MFullName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your full name"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Grid>
+
+                                    <!-- Row Two -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Email"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                         materialDesign:HintAssist.Hint="Enter your email address"
+                                                         IsEnabled="False"
+                                                         Text="{Binding MEmail, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Phone"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <TextBox MaxWidth="450" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Enter your phone number"
+                                                         Text="{Binding MPhone, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </Grid>
+
+                                    <!-- Row Three -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid Grid.Column="1" Margin="0 15 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Gender"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ListBox Style="{StaticResource MaterialDesignChoiceChipPrimaryListBox}" SelectedIndex="{Binding MGender, Converter={StaticResource CGenderConverter}}">
+                                                        <ListBoxItem Content="Male"/>
+                                                        <ListBoxItem Content="Female"/>
+                                                    </ListBox>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Row Four -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Province"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select province"
+                                                          ItemsSource="{Binding ProvincesSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          x:Name="provinceComboboxName"
+                                                          SelectedItem="{Binding SelectedAdminisProvince, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Loaded">
+                                                            <i:InvokeCommandAction Command="{ Binding LoadProvinceCommand }">
+                                                                <i:InvokeCommandAction.CommandParameter>
+                                                                    <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
+                                                                        <Binding ElementName="formProgressBarName"/>
+                                                                        <Binding ElementName="provinceComboboxName"/>
+                                                                        <Binding ElementName="districtComboboxName"/>
+                                                                        <Binding ElementName="wardComboboxName"/>
+                                                                    </MultiBinding>
+                                                                </i:InvokeCommandAction.CommandParameter>
+                                                            </i:InvokeCommandAction>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleProvinceChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="District"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select district"
+                                                          ItemsSource="{Binding DistrictsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          x:Name="districtComboboxName"
+                                                          SelectedItem="{Binding SelectedAdminisDistrict, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{ Binding HandleDistrictChangedCommand }" CommandParameter="{ Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Row Five -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Ward"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select ward"
+                                                          ItemsSource="{Binding WardsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          x:Name="wardComboboxName"
+                                                          SelectedItem="{Binding SelectedAdminisWard, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Row Six -->
+                                    <Grid Margin="0 10 0 0">
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="Detail address"/>
+                                                <Label Content="*" Foreground="Red"/>
+                                            </StackPanel>
+                                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" VerticalAlignment="Top"
+                                                     Height="100" MaxWidth="960" AcceptsReturn="True" TextWrapping="Wrap"
+                                                     VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Enter detail address"
+                                                     Text="{Binding MDetailAddress, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Row Seven -->
+                                    <Grid Margin="0 10 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0" Margin="0 0 15 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Departments"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select departments"
+                                                          ItemsSource="{Binding DepartmentsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          x:Name="departmentComboboxName"
+                                                          SelectedItem="{Binding SelectedDepartment, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Loaded">
+                                                            <i:InvokeCommandAction Command="{Binding LoadDepartmentCommand}">
+                                                                <i:InvokeCommandAction.CommandParameter>
+                                                                    <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
+                                                                        <Binding ElementName="formProgressBarName"/>
+                                                                        <Binding ElementName="departmentComboboxName"/>
+                                                                        <Binding ElementName="positioncomboboxName"/>
+                                                                    </MultiBinding>
+                                                                </i:InvokeCommandAction.CommandParameter>
+                                                            </i:InvokeCommandAction>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{Binding HandleDepartmentChangedCommand}" CommandParameter="{Binding ElementName=formProgressBarName}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Margin="15 0 0 0">
+                                            <StackPanel Orientation="Vertical">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Position"/>
+                                                    <Label Content="*" Foreground="Red"/>
+                                                </StackPanel>
+                                                <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select position"
+                                                          ItemsSource="{Binding PositionsSource}" materialDesign:TextFieldAssist.HasClearButton="True"
+                                                          x:Name="positioncomboboxName"
+                                                          SelectedItem="{Binding SelectedPosition, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Row SnackBar -->
+                                    <Grid Margin="0 20 0 0">
+                                        <materialDesign:Snackbar x:Name="snackBarMessageName" IsActive="False" HorizontalAlignment="Stretch" FontFamily="Segoe UI" Message=""/>
+                                    </Grid>
+
+                                    <!-- Row Final -->
+                                    <Grid Margin="0 20 0 0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Style="{DynamicResource MaterialDesignFlatButton}"
+                                                    Content="Cancel" Margin="5"/>
+                                            <Button Command="{Binding AddNewEmployeeCommand}" x:Name="btnAddDataName"
+                                                Content="Update" Margin="5" Style="{StaticResource MaterialDesignOutlinedDarkButton}">
+                                                <Button.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource CCommandParamsConverter}">
+                                                        <Binding ElementName="btnAddDataName"/>
+                                                        <Binding ElementName="formProgressBarName"/>
+                                                        <Binding ElementName="snackBarMessageName"/>
+                                                    </MultiBinding>
+                                                </Button.CommandParameter>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,6 +1,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace HR_Management.Model
 {
@@ -42,6 +43,8 @@ namespace HR_Management.Model
         public string Password { get; set; }
         [BsonIgnoreIfNull]
         public List<Permission> Permissions { get; set; }
+        [BsonIgnoreIfNull]
+        public string SecretePhone { get; set; }
         public override string ToString()
         {
             return this.AccountName;

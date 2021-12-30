@@ -21,11 +21,11 @@ namespace HR_Management.View.HR_UserControl.Models
     /// </summary>
     public partial class EmployeeForm : UserControl
     {
-        private EmployeeFormViewModel _employeeForm { get; set; }
+        private EmployeeFormViewModel _viewmodel { get; set; }
         public EmployeeForm()
         {
             InitializeComponent();
-            this.DataContext = _employeeForm = new EmployeeFormViewModel();
+            this.DataContext = _viewmodel = new EmployeeFormViewModel();
         }
     }
 }

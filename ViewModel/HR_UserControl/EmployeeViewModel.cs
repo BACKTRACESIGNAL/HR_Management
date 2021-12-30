@@ -38,15 +38,17 @@ namespace HR_Management.ViewModel.HR_UserControl
 
             // Register event
             // command
-            LoadMainFormCommand = new AsyncCommand<Grid>((p) => { return true; }, (p) =>
+            LoadMainFormCommand = new RelayCommand<Grid>((p) => { return true; }, (p) =>
             {
-                DialogHost dialogHost = Utility.GetParentDialogHost<Grid>(p);
-                if (dialogHost == null)
+                PlayYard.Instance().openingStrategy = new StrategyOpeningDialogHost(() =>
                 {
-                    return;
-                }
-
-                dialogHost.Dispatcher.Invoke(new Action(() => { dialogHost.DialogContent = new EmployeeForm(); }));
+                    DialogHost dialogHost = Utility.GetParentDialogHost<Grid>(p);
+                    if (dialogHost == null)
+                    {
+                        return;
+                    }
+                    dialogHost.DialogContent = new EmployeeForm();
+                });
             });
 
             // command

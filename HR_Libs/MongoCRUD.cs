@@ -29,6 +29,13 @@ namespace HR_Management.HR_Libs
             coll.UpdateOne(filter, document);
         }
 
+        public void UpdateOne(COLLECTION collection, FilterDefinition<BsonDocument> filter, UpdateDefinition<BsonDocument> document, List<ArrayFilterDefinition> definitions)
+        {
+            var coll = this.m_db.GetCollection<BsonDocument>(collection.ToDescriptionString());
+            var updateOptions = new UpdateOptions { ArrayFilters = definitions };
+            coll.UpdateOne(filter, document, updateOptions);
+        }
+
         public List<T> GetMany<T>(COLLECTION collection, FilterDefinition<T> filter)
         {
             var coll = this.m_db.GetCollection<T>(collection.ToDescriptionString());

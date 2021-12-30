@@ -28,7 +28,7 @@ namespace HR_Management.HR_Libs
 
         private EmployeeViewModel _employeeViewModel;
         public PAGE SelectedPageGlobal { get; set; } = PAGE.DASHBOARD;
-
+        public IStrategyOpeningDialogHost openingStrategy { get; set; }
 
         private static PlayYard _instance;
 
@@ -48,6 +48,18 @@ namespace HR_Management.HR_Libs
 
             return _instance;
         }
+
+
+
+
+
+
+
+
+
+
+
+
 
         public void SetEmployeeViewModel(EmployeeViewModel employeeViewModel)
         {
