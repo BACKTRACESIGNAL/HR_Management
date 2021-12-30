@@ -54,6 +54,8 @@ namespace HR_Management.ViewModel.HR_UserControl
             this._ward = employeeInfo.Ward.WardName;
             this._department = employeeInfo.Department.DepartmentName;
             this._position = employeeInfo.Position.PositionName;
+
+
         }
     }
 }

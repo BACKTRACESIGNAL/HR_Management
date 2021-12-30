@@ -7,5 +7,4 @@
     <converter:GenderConverter x:Key="CGenderConverter"/>
 
     <windowViewModel:MainViewModel x:Key="DMainViewModel"/>
-    <windowViewModel:LoginViewModel x:Key="DLoginViewModel"/>
 </ResourceDictionary>
