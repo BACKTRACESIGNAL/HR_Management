@@ -70,6 +70,11 @@ namespace HR_Management.ViewModel.HR_UserControl
             // command
             HandleLoadEmployeeDetailCommand = new AsyncCommand<Grid>((p) => { return true; }, (p) =>
             {
+                if (this._selectedEmployee == null)
+                {
+                    return;
+                }
+
                 Grid mainViewElement = Utility.GetParentFrameworkElementBaseNameDispatch(p, "mainViewName") as Grid;
 
                 App.Current.Dispatcher.Invoke(() =>

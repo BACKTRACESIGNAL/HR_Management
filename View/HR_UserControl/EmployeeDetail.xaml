@@ -17,6 +17,17 @@
              FontFamily="{DynamicResource MaterialDesignFont}"
 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml"/>
+                <!-- throw in some extra colour for our floating action button -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Green.Named.Primary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
             <Style TargetType="TextBlock">
@@ -38,67 +49,156 @@
             <ProgressBar x:Name="mainProgressBarName" IsIndeterminate="True" Visibility="Hidden"/>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Margin="20">
+            <StackPanel Orientation="Vertical">
 
-            <Grid Grid.Column="0">
-                
-            </Grid>
+                <materialDesign:Card>
+                    <Grid Margin="15">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="5">
+                                <Ellipse Height="100" Width="100">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="../../Resource/Image/avt.jpg"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Grid>
 
-            <Grid Grid.Column="1">
-                <StackPanel Orientation="Vertical">
-                    <materialDesign:Card>
-                        <Grid Margin="15">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0" Margin="5">
-                                    <Ellipse Height="100" Width="100">
-                                        <Ellipse.Fill>
-                                            <ImageBrush ImageSource="../../Resource/Image/avt.jpg"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
+                            <Grid Grid.Column="1" Margin="14 0 0 0">
+                                <Grid.Resources>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Margin="0 10 0 0">
+                                    <TextBlock FontSize="15" FontStyle="Italic" Foreground="Gray" Text="{Binding MEmployeeCode, UpdateSourceTrigger=PropertyChanged}"/>
                                 </Grid>
 
-                                <Grid Grid.Column="1">
-                                    <Grid.Resources>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="VerticalAlignment" Value="Center"/>
-                                        </Style>
-                                    </Grid.Resources>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
+                                <Grid Grid.Row="1">
+                                    <TextBlock FontSize="23" FontWeight="SemiBold" Text="{Binding MFullName, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
 
-                                    <Grid Grid.Row="0">
-                                        <TextBlock Text="{Binding MEmployeeCode, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Grid>
-
-                                    <Grid Grid.Row="1">
-                                        <TextBlock Text="{Binding MFullName, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Grid>
-
-                                    <Grid Grid.Row="2">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding MPosition, UpdateSourceTrigger=PropertyChanged}"/>
-                                            <TextBlock Text=" / "/>
-                                            <TextBlock Text="{Binding MDepartment, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                    </Grid>
+                                <Grid Grid.Row="2" Margin="0 0 0 10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding MPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text=" / "/>
+                                        <TextBlock Text="{Binding MDepartment, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
                                 </Grid>
                             </Grid>
+
+                            <Grid Grid.Column="2">
+                                <materialDesign:PopupBox Grid.Row="1" Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                                         PlacementMode="LeftAndAlignMiddles" UnfurlOrientation="Horizontal" ToolTip="Manage items" Margin="0 0 10 10"
+                                                         HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button ToolTip="Edit profile" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                                            <Path Fill="Black" Data="M21.7,13.35L20.7,14.35L18.65,12.3L19.65,11.3C19.86,11.09 20.21,11.09 20.42,11.3L21.7,12.58C21.91,12.79 21.91,13.14 21.7,13.35M12,18.94L18.06,12.88L20.11,14.93L14.06,21H12V18.94M12,14C7.58,14 4,15.79 4,18V20H10V18.11L14,14.11C13.34,14.03 12.67,14 12,14M12,4A4,4 0 0,0 8,8A4,4 0 0,0 12,12A4,4 0 0,0 16,8A4,4 0 0,0 12,4Z" />
+                                        </Button>
+
+                                        <Button ToolTip="Remove selected item" Command="{Binding RemoveSelectedItemCommand}">
+                                            <Path Data="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" Stretch="Uniform"
+                                                  Width="15" Height="15" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                                        </Button>
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                            </Grid>
                         </Grid>
-                    </materialDesign:Card>
-                </StackPanel>
-            </Grid>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="0 20 0 0">
+                    <Grid Margin="10">
+                        <Grid.Resources>
+                            <Style TargetType="Grid">
+                                <Setter Property="Margin" Value="15"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Row 1 -->
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Mã Nhân viên" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <TextBlock Text="{Binding MEmployeeCode}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="2">
+                            <TextBlock Text="Địa chỉ Email" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="0" Grid.Column="3">
+                            <TextBlock Text="{Binding MEmail}"/>
+                        </Grid>
+
+                        <!-- Row 2 -->
+                        <Grid Grid.Row="1" Grid.Column="0">
+                            <TextBlock Text="Số điện thoại" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <TextBlock Text="{Binding MPhone}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <TextBlock Text="Tỉnh" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1" Grid.Column="3">
+                            <TextBlock Text="{Binding MProvince}"/>
+                        </Grid>
+
+                        <!-- Row 3 -->
+                        <Grid Grid.Row="2" Grid.Column="0">
+                            <TextBlock Text="Huyện" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="1">
+                            <TextBlock Text="{Binding MDistrict}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="2">
+                            <TextBlock Text="Xã" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2" Grid.Column="3">
+                            <TextBlock Text="{Binding MWard}"/>
+                        </Grid>
+                        
+                        <!-- Row 4 -->
+                        <Grid Grid.Row="3" Grid.Column="0">
+                            <TextBlock Text="Địa chỉ chi tiết" FontWeight="SemiBold"/>
+                        </Grid>
+
+                        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3">
+                            <TextBlock Text="{Binding MDetailAddress}"/>
+                        </Grid>
+                    </Grid>
+                </materialDesign:Card>
+            </StackPanel>
         </Grid>
 
     </Grid>
