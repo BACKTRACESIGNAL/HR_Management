@@ -11,7 +11,7 @@ namespace HR_Management.ViewModel.HR_Window
     {   
         public LoginViewModel()
         {
-            MessageBox.Show("ok");
+
         }
 
     }

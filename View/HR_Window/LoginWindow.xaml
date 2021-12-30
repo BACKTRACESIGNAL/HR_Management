@@ -30,8 +30,8 @@
                         
                     </ToggleButton>
                     </StackPanel>
-                    <Button ToolTip="Haveing Trouble Logging In?" Margin="0 8 0 8 " Content="Help me!"/>
-                    <Button x:Name="btn_exit" ToolTip="Close Application" Content="Exit Application" Click="exitApp"/>
+                    <Button ToolTip="Haveing Trouble Logging In?" Margin="0 8 0 8 " Content="Trợ giúp!"/>
+                    <Button x:Name="btn_exit" ToolTip="Close Application" Content="Thoát" Click="exitApp"/>
                 </StackPanel>
             </materialDesign:PopupBox>
             <Image Margin="0 60 0 5" Source="../../Resource/Image/logologin.png" Height="100" />
@@ -39,9 +39,9 @@
             <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
                            Text="Chào mừng bạn đã trở lại với HRM"/>
             <TextBox Margin=" 0 50 0 0 " x:Name="txtUserName" Width="300" FontSize="18"
-                         materialDesign:HintAssist.Hint="Tài khoản" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider} " Style="{StaticResource MaterialDesignOutlinedTextBox }"/>
+                         materialDesign:HintAssist.Hint="Tài khoản" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox }"/>
             <PasswordBox Margin=" 0 20 0 0 " x:Name="txtPassWord" Width="300" FontSize="18"
-                         materialDesign:HintAssist.Hint="Mật khẩu" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider} " Style="{StaticResource MaterialDesignOutlinedPasswordBox }"/>
+                         materialDesign:HintAssist.Hint="Mật khẩu" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox }"/>
             <Button Margin="0 20 0 0 " x:Name="btnLogin" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10"
                         FontSize="18" Content="Đăng Nhập"/>
         </StackPanel>

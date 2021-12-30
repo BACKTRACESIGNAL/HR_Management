@@ -11,6 +11,7 @@
     <None Remove="Resource\Image\Card_0.jpg" />
     <None Remove="Resource\Image\connection.png" />
     <None Remove="Resource\Image\eye.png" />
+    <None Remove="Resource\Image\logologin.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
     <Resource Include="Resource\Image\Card_0.jpg" />
     <Resource Include="Resource\Image\connection.png" />
     <Resource Include="Resource\Image\eye.png" />
+    <Resource Include="Resource\Image\logologin.png" />
   </ItemGroup>
 
   <ItemGroup>
