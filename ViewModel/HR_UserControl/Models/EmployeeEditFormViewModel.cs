@@ -231,7 +231,6 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                         else
                         {
                             // ---------------------------------------------------- //
-                            MessageBox.Show(this._email);
                             essentialFilter = Builders<BsonDocument>.Filter.Eq("DepartmentCode", this._selectedDepartment.DepartmentCode)
                                                 & Builders<BsonDocument>.Filter.Eq("EmployeeInfos.Email", this._email);
 

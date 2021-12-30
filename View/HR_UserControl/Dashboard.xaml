@@ -70,8 +70,8 @@
                                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Label Content="Hello "/>
-                                        <Label Content="Johnathen!"/>
+                                        <Label Content="Xin chào "/>
+                                        <Label Content="Nhan0605!"/>
                                     </StackPanel>
                                 </Grid>
 
@@ -86,9 +86,9 @@
                                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                             </Style>
                                         </StackPanel.Resources>
-                                        <Label Content="Welcome back! You have "/>
+                                        <Label Content="Chào mừng đã trở lại, bạn có "/>
                                         <Label Content="16"/>
-                                        <Label Content=" notifications."/>
+                                        <Label Content=" thông báo."/>
                                     </StackPanel>
                                 </Grid>
 
@@ -98,7 +98,7 @@
                                         <ColumnDefinition Width="0.4*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
-                                        <Button Style="{StaticResource MaterialDesignRaisedLightButton}" Content="LEARN MORE" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
+                                        <Button Style="{StaticResource MaterialDesignRaisedLightButton}" Content="Đọc thêm" IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"/>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -130,13 +130,13 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Grid Grid.Column="0">
-                                    <Label Content="Evaluation progress" VerticalAlignment="Bottom" FontSize="19" FontWeight="Medium"/>
+                                    <Label Content="Quá trình đánh giá" VerticalAlignment="Bottom" FontSize="19" FontWeight="Medium"/>
                                 </Grid>
                                 <Grid Grid.Column="1">
                                     <Button Background="Transparent" BorderThickness="0" Padding="0" Foreground="Black" VerticalAlignment="Bottom">
                                         <Button.Content>
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="See more " FontSize="13" Padding="0" VerticalAlignment="Bottom"/>
+                                                <Label Content="Xem thêm " FontSize="13" Padding="0" VerticalAlignment="Bottom"/>
                                                 <materialDesign:PackIcon Kind="ArrowRight" Width="13" VerticalAlignment="Bottom"/>
                                             </StackPanel>
                                         </Button.Content>
@@ -281,8 +281,8 @@
 
                                     <Grid Grid.Row="0">
                                         <StackPanel Orientation="Vertical">
-                                            <Label Content="Accepted"/>
-                                            <Label Content="job applications"/>
+                                            <Label Content="Đơn xin việc"/>
+                                            <Label Content="được chấp thuận"/>
                                         </StackPanel>
                                     </Grid>
 
@@ -336,8 +336,8 @@
 
                                     <Grid Grid.Row="0">
                                         <StackPanel Orientation="Vertical">
-                                            <Label Content="Rejected"/>
-                                            <Label Content="job applications"/>
+                                            <Label Content="Đơn xin việc"/>
+                                            <Label Content="chưa chấp thuận"/>
                                         </StackPanel>
                                     </Grid>
 
@@ -388,18 +388,18 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <Label Content="Recruitment progress" VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"/>
+                                <Label Content="Tiến độ tuyển dụng" VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="18" FontWeight="Bold"/>
                             </Grid>
 
                             <Grid Grid.Column="1">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="10 0" BorderBrush="Gray"
                                                   MinWidth="150" SelectedIndex="0">
-                                        <ComboBoxItem Content="All status"/>
+                                        <ComboBoxItem Content="Trạng thái"/>
                                     </ComboBox>
                                     <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="10 0" BorderBrush="Gray"
                                                   MinWidth="150" SelectedIndex="0">
-                                        <ComboBoxItem Content="Today"/>
+                                        <ComboBoxItem Content="Hôm nay"/>
                                     </ComboBox>
                                 </StackPanel>
                             </Grid>
@@ -410,11 +410,11 @@
                             <ListView HorizontalContentAlignment="Left" ItemsSource="{Binding EmployeeSourceData}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>
-                                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
-                                        <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
-                                        <GridViewColumn Header="Department" DisplayMemberBinding="{Binding Department}"/>
-                                        <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
+                                        <GridViewColumn Header="Họ và tên" DisplayMemberBinding="{Binding FullName}"/>
+                                        <GridViewColumn Header="Địa chỉ email" DisplayMemberBinding="{Binding Email}"/>
+                                        <GridViewColumn Header="Giới tính" DisplayMemberBinding="{Binding Gender}"/>
+                                        <GridViewColumn Header="Phòng" DisplayMemberBinding="{Binding Department}"/>
+                                        <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}"/>
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -453,7 +453,7 @@
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="AccountMultipleOutline"/>
                                         <Label Content="742" FontWeight="Bold" FontSize="25"/>
-                                        <Label Content="Employees" FontWeight="SemiBold"/>
+                                        <Label Content="Nhân sự" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>
@@ -463,7 +463,7 @@
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="TimerSettingsOutline" />
                                         <Label Content="21" FontWeight="Bold" FontSize="25"/>
-                                        <Label Content="Time-off" FontWeight="SemiBold"/>
+                                        <Label Content="Thời gian nghỉ" FontWeight="SemiBold"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>
