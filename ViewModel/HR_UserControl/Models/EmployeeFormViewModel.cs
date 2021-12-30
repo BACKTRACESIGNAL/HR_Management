@@ -153,18 +153,15 @@ namespace HR_Management.ViewModel.HR_UserControl.Models
                             Account account = new Account
                             {
                                 AccountName = this._email,
-                                Password = PasswordHasher.CreateHash("hrmanagement@initializer"),
+                                Password = PasswordHasher.CreateHash("hrsystemhrsystem"),
                                 GroupPermissions = new List<GroupAlias> { new GroupAlias
                                 {
                                     GroupCode = Utility.GLOBAL_VARIABLE.DEFAULT_GROUP_CODE,
                                     GroupPartionCurrent = Utility.GLOBAL_VARIABLE.GROUP_PARTION_MEMBER
-                                } },
-
+                                }},
                                 CreatedDateTime = DateTime.Now,
-                                CreatedBy = this._phone,
-                                //CreatedBy = Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.AccountName
+                                CreatedBy = Utility.GLOBAL_VARIABLE.ACCOUNT_CACHED.AccountName
                             };
-
 
                             FilterDefinition<BsonDocument> filterEmployee = Builders<BsonDocument>.Filter.Eq("DepartmentCode", this._selectedDepartment.DepartmentCode)
                                                                   & Builders<BsonDocument>.Filter.Eq("Positions.PositionCode", this._selectedPosition.PositionCode);

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:HR_Management.View.HR_Window"
         mc:Ignorable="d"
         
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -14,36 +15,44 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-
-        DataContext="DLoginViewModel"
-        Title="LoginWindow" Height="760" Width="450" FontSize="14"  >
-    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
+        WindowStartupLocation="CenterScreen"
+        x:Name="loginWindowName"
+        Title="LoginWindow" Height="650" Width="400" >
+    <Grid>
+        <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
                          materialDesign:ShadowAssist.ShadowDepth="Depth4">
-        <StackPanel>
-            <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+            <StackPanel>
+                <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
                                          PlacementMode= "BottomAndAlignRightEdges" StaysOpen="False" Height="25">
-                <StackPanel> 
-                <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock VerticalAlignment="Center" Text="Giao diện tối"/>
-                    <ToggleButton Cursor="Hand" ToolTip="Enable" Margin="12 0 8 0" 
-                                      x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}" Click="toggleTheme">
-                        
-                    </ToggleButton>
+                    <StackPanel>
+                        <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" Text="Giao diện tối"/>
+                            <ToggleButton Cursor="Hand" ToolTip="Enable" Margin="12 0 8 0" 
+                                      x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}">
+
+                            </ToggleButton>
+                        </StackPanel>
+                        <Button ToolTip="Haveing Trouble Logging In?" Margin="0 8 0 8 " Content="Trợ giúp!"/>
+                        <Button x:Name="btn_exit" ToolTip="Close Application" Content="Thoát"/>
                     </StackPanel>
-                    <Button ToolTip="Haveing Trouble Logging In?" Margin="0 8 0 8 " Content="Trợ giúp!"/>
-                    <Button x:Name="btn_exit" ToolTip="Close Application" Content="Thoát" Click="exitApp"/>
-                </StackPanel>
-            </materialDesign:PopupBox>
-            <Image Margin="0 60 0 5" Source="../../Resource/Image/logologin.png" Height="100" />
-            <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Đăng nhập!"/>
-            <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
+                </materialDesign:PopupBox>
+                <Image Margin="0 15" Source="../../Resource/Image/logologin.png" Height="100" />
+                <TextBlock Margin="0 15" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Đăng nhập!"/>
+                <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
                            Text="Chào mừng bạn đã trở lại với HRM"/>
-            <TextBox Margin=" 0 50 0 0 " x:Name="txtUserName" Width="300" FontSize="18"
-                         materialDesign:HintAssist.Hint="Tài khoản" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox }"/>
-            <PasswordBox Margin=" 0 20 0 0 " x:Name="txtPassWord" Width="300" FontSize="18"
-                         materialDesign:HintAssist.Hint="Mật khẩu" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox }"/>
-            <Button Margin="0 20 0 0 " x:Name="btnLogin" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10"
-                        FontSize="18" Content="Đăng Nhập"/>
-        </StackPanel>
-    </materialDesign:Card>
+                <TextBox Margin="30 15" x:Name="txtUserName" FontSize="12" Text="{Binding MAccountName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Tài khoản" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox }"/>
+                <PasswordBox Margin="30 10" x:Name="passwordBoxName" FontSize="12"
+                         materialDesign:HintAssist.Hint="Mật khẩu" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox }">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PasswordChanged">
+                            <i:InvokeCommandAction Command="{Binding HandlePasswordChangeCommand}" CommandParameter="{Binding ElementName=passwordBoxName}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </PasswordBox>
+                <Button Margin="30 10" x:Name="btnLogin" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" materialDesign:ButtonAssist.CornerRadius="10"
+                        IsDefault="True" FontSize="15" Height="35" Content="Đăng Nhập" Command="{Binding HandleLoginCommand}" CommandParameter="{Binding ElementName=loginWindowName}"/>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
 </Window>

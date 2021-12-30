@@ -1,5 +1,6 @@
 ﻿using HR_Management.HR_Libs;
 using HR_Management.View.HR_UserControl;
+using HR_Management.View.HR_Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,26 +17,6 @@ namespace HR_Management.ViewModel.HR_Window
 {
     public class MainViewModel : BaseViewModel
     {
-        private Storyboard ShowUserControlAnimate(UserControl userControl, Grid container)
-        {
-            userControl.RenderTransform = new TranslateTransform();
-            container.Children.Clear();
-            container.Children.Add(userControl);
-
-            Storyboard sb = new Storyboard();
-            DoubleAnimation slide = new DoubleAnimation();
-
-            slide.To = 0;
-            slide.From = container.ActualWidth;
-            slide.Duration = new Duration(TimeSpan.FromMilliseconds(400));
-
-            Storyboard.SetTarget(slide, userControl);
-            Storyboard.SetTargetProperty(slide, new PropertyPath("RenderTransform.(TranslateTransform.X)"));
-
-            sb.Children.Add(slide);
-            return sb;
-        }
-
         public ICommand HandleDialogOpenedCommand { get; set; }
         public ICommand LoadDashboardCommand { get; set; }
         public ICommand LoadEmployeeCommand { get; set; }
@@ -43,14 +24,23 @@ namespace HR_Management.ViewModel.HR_Window
         public ICommand LoadRecruitmentCommand { get; set; }
         public ICommand LoadOnboardingCommand { get; set; }
         public ICommand LoadOffboardingCommand { get; set; }
-
         public ICommand LoadUnsupportedCommand { get; set; }
+
+        public ICommand HandleLogoutCommand { get; set; }
 
         public MainViewModel()
         {
-            // Start up database instance
+            // Start up database instance   
             StartUp startUp = new StartUp();
             bool ok = startUp.Load();
+
+            // -------------------------------------------------------------------------- //
+            // @TODO: Handle start up fail
+            // -------------------------------------------------------------------------- //
+
+            // Login
+            //_ = this.HandleLogin();
+
 
             // Assign Commands
             PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.DASHBOARD;
@@ -70,7 +60,7 @@ namespace HR_Management.ViewModel.HR_Window
                 {
                     t.Content = s.Content;
                     UserControl showView = new Dashboard();
-                    this.ShowUserControlAnimate(showView, p).Begin();
+                    Utility.ShowUserControlAnimate(showView, p).Begin();
                     PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.DASHBOARD;
                 }
             });
@@ -86,7 +76,7 @@ namespace HR_Management.ViewModel.HR_Window
                 {
                     t.Content= s.Content;
                     UserControl showView = new Employee();
-                    this.ShowUserControlAnimate(showView, p).Begin();
+                    Utility.ShowUserControlAnimate(showView, p).Begin();
                     PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.EMPLOYEE;
                 }
             });
@@ -170,6 +160,44 @@ namespace HR_Management.ViewModel.HR_Window
                     PlayYard.Instance().SelectedPageGlobal = PlayYard.PAGE.UNSUPPORTED;
                 }
             });
+
+            HandleLogoutCommand = new AsyncCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Dispatcher.Invoke(() =>
+                {
+                    p.Hide();
+                    bool retOk = this.HandleLogin();
+                    if (retOk == ok)
+                    {
+                        p.Show();
+                    }
+                    else
+                    {
+                        Environment.Exit(0);
+                    }
+                });
+            });
+        }
+
+        private bool HandleLogin()
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+
+            LoginViewModel loginViewModel = loginWindow.DataContext as LoginViewModel;
+            if (loginViewModel == null)
+            {
+                // @TODO: Handle if login viewModel is null
+                return false;
+            }
+
+            if (loginViewModel.LoginSuccess == false)
+            {
+                Environment.Exit(0);
+                return false;
+            }
+
+            return true;
         }
     }
 }

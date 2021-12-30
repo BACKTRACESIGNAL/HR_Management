@@ -37,6 +37,9 @@
     <Compile Update="View\HR_UserControl\Unsupported.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\HR_Window\LoginWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\UtilityView\Loading.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -73,6 +76,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_UserControl\Unsupported.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\HR_Window\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\HR_Window\MainWindow.xaml">

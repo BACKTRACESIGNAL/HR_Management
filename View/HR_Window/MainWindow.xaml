@@ -19,6 +19,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
 
+        x:Name="mainWindowName"
         DataContext="{StaticResource DMainViewModel}"
         Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
@@ -280,12 +281,10 @@
                                                     <materialDesign:PackIcon VerticalAlignment="Center" Kind="MenuDown" />
                                                 </StackPanel>
                                             </MenuItem.Header>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
-                                            <MenuItem Header="Save" Icon="{materialDesign:PackIcon Kind=ContentSave}"/>
+                                            <MenuItem Header="Thông tin cá nhân" Icon="{materialDesign:PackIcon Kind=AccountCowboyHatOutline}"/>
+                                            <MenuItem Header="Tài khoản" Icon="{materialDesign:PackIcon Kind=AccountBoxOutline}"/>
+                                            <MenuItem Header="Trợ giúp" Icon="{materialDesign:PackIcon Kind=HelpCircleOutline}"/>
+                                            <MenuItem Header="Đăng xuất" Icon="{materialDesign:PackIcon Kind=Logout}" Command="{Binding HandleLogoutCommand}" CommandParameter="{Binding ElementName=mainWindowName}"/>
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
