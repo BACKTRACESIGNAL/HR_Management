@@ -5,17 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HR_Management.View.HR_Window"
         mc:Ignorable="d"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+
         DataContext="DLoginViewModel"
-        Title="LoginWindow" Height="450" Width="500" FontSize="14" Background="White">
-    <Border Background="Purple" CornerRadius="100" Margin=" 20">
-        <StackPanel Margin="50">
-            <Label Content="Login" Foreground="White" FontSize="45" HorizontalContentAlignment="Center"></Label>
-            <Separator></Separator>
-            <Label Content="Username:" Foreground="White"></Label>
-            <TextBox Name="txtUsername" Background="#CFC3D2" Foreground="Purple" FontSize="18" ></TextBox>
-            <Label Content="Password:" Foreground="White"></Label>
-            <PasswordBox Name="txtPassword" Background="#CFC3D2" Foreground="Purple" FontSize="18" ></PasswordBox>
-            <Button Name="btnSummit" Width="100" Content="Summit" Margin="40 " Background="White" Foreground="Purple" FontSize="18"></Button>
+        Title="LoginWindow" Height="760" Width="450" FontSize="14"  >
+    <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25"
+                         materialDesign:ShadowAssist.ShadowDepth="Depth4">
+        <StackPanel>
+            <materialDesign:PopupBox HorizontalAlignment="Right" Margin="0 20 20 0"
+                                         PlacementMode= "BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                <StackPanel> 
+                <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Text="Giao diện tối"/>
+                    <ToggleButton Cursor="Hand" ToolTip="Enable" Margin="12 0 8 0" 
+                                      x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}" Click="toggleTheme">
+                        
+                    </ToggleButton>
+                    </StackPanel>
+                    <Button ToolTip="Haveing Trouble Logging In?" Margin="0 8 0 8 " Content="Help me!"/>
+                    <Button x:Name="btn_exit" ToolTip="Close Application" Content="Exit Application" Click="exitApp"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+            <Image Margin="0 60 0 5" Source="../../Resource/Image/logologin.png" Height="100" />
+            <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Đăng nhập!"/>
+            <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center"
+                           Text="Chào mừng bạn đã trở lại với HRM"/>
+            <TextBox Margin=" 0 50 0 0 " x:Name="txtUserName" Width="300" FontSize="18"
+                         materialDesign:HintAssist.Hint="Tài khoản" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider} " Style="{StaticResource MaterialDesignOutlinedTextBox }"/>
+            <PasswordBox Margin=" 0 20 0 0 " x:Name="txtPassWord" Width="300" FontSize="18"
+                         materialDesign:HintAssist.Hint="Mật khẩu" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider} " Style="{StaticResource MaterialDesignOutlinedPasswordBox }"/>
+            <Button Margin="0 20 0 0 " x:Name="btnLogin" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10"
+                        FontSize="18" Content="Đăng Nhập"/>
         </StackPanel>
-    </Border>
+    </materialDesign:Card>
 </Window>

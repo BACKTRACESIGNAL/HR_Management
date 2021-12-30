@@ -116,7 +116,7 @@
                             </Button.CommandParameter>
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="MenuOpen"/>
-                                <Label x:Name="lbDashboardName" Content="Dashboard"/>
+                                <Label x:Name="lbDashboardName" Content="Giao diện"/>
                             </StackPanel>
                         </Button>
                         <Button Command="{Binding LoadEmployeeCommand}">
@@ -130,7 +130,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountMultipleOutline"/>
-                                    <Label x:Name="lbEmployeeName" Content="Employee"/>
+                                    <Label x:Name="lbEmployeeName" Content="Nhân sự"/>
                                     <materialDesign:Chip Content="12"/>
                                 </StackPanel>
                             </Button.Content>
@@ -139,7 +139,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FileTree" />
-                                    <Label Content="Request"/>
+                                    <Label Content="Yêu cầu"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -147,7 +147,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountMultiplePlusOutline" />
-                                    <Label Content="Recruitment"/>
+                                    <Label Content="Tuyển dụng"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -155,7 +155,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountArrowRightOutline" />
-                                    <Label Content="Onboarding"/>
+                                    <Label Content="Nhân sự đến"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -163,7 +163,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="AccountArrowLeftOutline" />
-                                    <Label Content="Offboarding"/>
+                                    <Label Content="Nhân sự rời"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -171,7 +171,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CheckAll" />
-                                    <Label Content="Evaluation"/>
+                                    <Label Content="Đánh giá"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -179,7 +179,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CalendarMinus" />
-                                    <Label Content="Calendar"/>
+                                    <Label Content="Lịch"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -187,7 +187,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="FolderMultipleOutline" />
-                                    <Label Content="Document"/>
+                                    <Label Content="Thư mục"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -195,7 +195,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="ClockTimeFourOutline" />
-                                    <Label Content="Activity"/>
+                                    <Label Content="Hoạt động"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -203,7 +203,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CogOutline" />
-                                    <Label Content="Setting"/>
+                                    <Label Content="Cài đặt"/>
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -224,7 +224,7 @@
                                 <Button ToolTip="Hide" Background="Transparent" BorderThickness="0" Foreground="Black" Padding="0">
                                     <Image Source="../../Resource/Image/eye.png"/>
                                 </Button>
-                                <Label Content="Dashboard" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
+                                <Label Content="Giao diện" x:Name="mainLabelName" VerticalAlignment="Center" FontFamily="Tw Cen MT" FontSize="35" FontWeight="Medium"></Label>
                             </StackPanel>
                         </Grid>
                         <Grid DockPanel.Dock="Right">

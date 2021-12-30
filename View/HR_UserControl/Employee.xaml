@@ -76,9 +76,9 @@
                         <StackPanel Orientation="Vertical" Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="60" FontSize="15"/>
-                                <Label Content=" vacancies"/>
+                                <Label Content=" vị trí truyển dụng"/>
                             </StackPanel>
-                            <Label Content="Recommended" FontSize="17"/>
+                            <Label Content="Khuyến khích" FontSize="17"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -93,9 +93,9 @@
                         <StackPanel Orientation="Vertical" Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="70" FontSize="15"/>
-                                <Label Content=" vacancies"/>
+                                <Label Content=" vị trí tuyển dụng"/>
                             </StackPanel>
-                            <Label Content="Remote" FontSize="17"/>
+                            <Label Content="Từ xa" FontSize="17"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -110,9 +110,9 @@
                         <StackPanel Orientation="Vertical" Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="20" FontSize="15"/>
-                                <Label Content=" vacancies"/>
+                                <Label Content=" vị trí tuyển dụng"/>
                             </StackPanel>
-                            <Label Content="Out Staff" FontSize="17"/>
+                            <Label Content="Quay lại" FontSize="17"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -127,9 +127,9 @@
                         <StackPanel Orientation="Vertical" Margin="10">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="120" FontSize="15"/>
-                                <Label Content=" vacancies"/>
+                                <Label Content=" vị trí tuyển dụng"/>
                             </StackPanel>
-                            <Label Content="Out Staff" FontSize="17"/>
+                            <Label Content="Đạo tạo" FontSize="17"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -144,7 +144,7 @@
 
             <Grid Grid.Column="0" Margin="10">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Top users" VerticalAlignment="Center" FontWeight="SemiBold"/>
+                    <Label Content="Nhân viên hàng đầu" VerticalAlignment="Center" FontWeight="SemiBold"/>
                     <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Margin="20 0">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -152,7 +152,7 @@
                                 <ColumnDefinition Width="auto" />
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0">
-                                <TextBox Margin="8 0 0 0" materialDesign:HintAssist.Hint="Find employees" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                <TextBox Margin="8 0 0 0" materialDesign:HintAssist.Hint="Tìm kiếm" materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
                                      BorderThickness="0" MinWidth="200" VerticalAlignment="Center" />
                             </Grid>
                             <Grid Grid.Column="1">
@@ -188,7 +188,7 @@
                                 Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
                             <StackPanel>
                                 <materialDesign:PackIcon Kind="PlusThick"/>
-                                <Label Content="Add"/>
+                                <Label Content="Thêm"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -198,7 +198,7 @@
                                 Background="Transparent" Height="40" BorderThickness="1" BorderBrush="Black" Foreground="Black">
                             <StackPanel>
                                 <materialDesign:PackIcon Kind="PlusThick"/>
-                                <Label Content="Import"/>
+                                <Label Content="Nhập"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -215,14 +215,14 @@
                 </i:Interaction.Triggers>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Employee code" DisplayMemberBinding="{Binding EmployeeCode}"/>
-                        <GridViewColumn Header="Full name" DisplayMemberBinding="{Binding FullName}"/>
-                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding Email}"/>
-                        <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding Phone}"/>
-                        <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
-                        <GridViewColumn Header="Province" DisplayMemberBinding="{Binding ProvinceName}"/>
-                        <GridViewColumn Header="District" DisplayMemberBinding="{Binding DistrictName}"/>
-                        <GridViewColumn Header="Ward" DisplayMemberBinding="{Binding WardName}"/>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding EmployeeCode}"/>
+                        <GridViewColumn Header="Họ tên" DisplayMemberBinding="{Binding FullName}"/>
+                        <GridViewColumn Header="Địa chỉ email" DisplayMemberBinding="{Binding Email}"/>
+                        <GridViewColumn Header="Đt" DisplayMemberBinding="{Binding Phone}"/>
+                        <GridViewColumn Header="Phái" DisplayMemberBinding="{Binding Gender}"/>
+                        <GridViewColumn Header="Tỉnh" DisplayMemberBinding="{Binding ProvinceName}"/>
+                        <GridViewColumn Header="Quận" DisplayMemberBinding="{Binding DistrictName}"/>
+                        <GridViewColumn Header="Khu" DisplayMemberBinding="{Binding WardName}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
